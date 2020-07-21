@@ -470,6 +470,21 @@ module.exports = function(webpackEnv) {
               // See https://github.com/webpack/webpack/issues/6571
               sideEffects: true,
             },
+            {
+              test: /\.less$/,
+              use: [{
+                loader: 'style-loader',
+              }, {
+                loader: 'css-loader', // translates CSS into CommonJS
+              }, {
+                loader: 'less-loader', // compiles Less to CSS
+                options: {
+                  lessOptions: {
+                    javascriptEnabled: true
+                  }
+                }
+              }],
+            },
             // Adds support for CSS Modules, but using SASS
             // using the extension .module.scss or .module.sass
             {
