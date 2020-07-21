@@ -1,68 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# CRM生成器 - react antd 版
 
-## Available Scripts
+## Vue 版
+> 内网： http://f2e.snowballfinance.io/crm-editor/
 
-In the project directory, you can run:
+> 外网： https://blog.dappwind.com/crm-editor/
 
-### `yarn start`
+## 目的
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+通过拖拽编辑、智能识别等方式 完善原型稿搭建、原型识别 功能，降低编写表单表格 UI 编码时间，有效提升 CRM 需求开发效率。
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+生成代码格式是雪球通用CRM框架所选用的 react antd + mobx，开发人员可直接复制使用。
 
-### `yarn test`
+## 代码结构
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+.
+├── App.js
+├── App.less
+├── components
+│   ├── Config.js         右侧组件配置
+│   ├── Drawer.js         左侧组件选择抽屉
+│   ├── InitJson.js       组件初始化json
+│   ├── Item.js           组件
+│   └── ItemContainer.js  容器组件
+├── index.css
+├── index.js
+└── util
+    ├── AI2JSON.js        AI识别转换
+    ├── DSL.js            DSL解析
+    ├── index.js
+    └── schemaEnrich.js   DSL扩展
+```
 
-### `yarn build`
+## 代码逻辑
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### schema & DSL
+schema 是对页面UI的描述，像是Flutter的声明式UI
+也算做是 DSL - 领域特定语言(英语:domain-specific language、 DSL)指的是专注于某个应用程序领域的计算机语言。又译作领域专用语言。
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+在schema里，我们会去描述一个视图完整的信息结构:节点之间的结 构特征、节点自身的 UI 特征、节点自身的逻辑特征等等，你可以在这份数据里找到你所需要的信息，从而进行更多应用层上的使用，比 如生成 DSL 代码、渲染到可视化编辑器里等等。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+这里沿用阿里imgcook的schema格式，作为通用schema。点击我们编辑器上的 生成schema 就可以查看当前页面的schema
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
