@@ -1,7 +1,7 @@
 /**
  * 全局Store
  */
-import { observable, action } from 'mobx';
+import { observable } from 'mobx';
 class Store {
   @observable schema = {
     "componentName": "Page",
