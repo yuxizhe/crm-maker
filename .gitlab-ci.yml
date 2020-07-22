@@ -1,0 +1,23 @@
+stages:
+  - build
+pages:
+  stage: build
+  script: 
+    - yarn install
+    - yarn build
+    - cp -rf ./build/* ./public
+  only:
+    refs:
+      - master
+  tags:
+    - fe
+  only:
+    refs:
+      - master
+  artifacts:
+    paths:
+    - public
+cache:
+ key: modules
+ paths:
+  - node_modules/
