@@ -1,4 +1,6 @@
 # CRM生成器 - react antd 版
+## React版
+> 内网： http://f2e.snowballfinance.io/crm-maker/
 
 ## Vue 版
 > 内网： http://f2e.snowballfinance.io/crm-editor/
