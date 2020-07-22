@@ -1692,6 +1692,11 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/sortablejs@^1.10.0":
+  version "1.10.5"
+  resolved "https://registry.npm.taobao.org/@types/sortablejs/download/@types/sortablejs-1.10.5.tgz#341f5af3372180ce3cbfbd2b34a6fdefaca8d227"
+  integrity sha1-NB9a8zchgM48v70rNKb976yo0ic=
+
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
@@ -9562,6 +9567,16 @@ react-slick@~0.25.2:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
+react-sortablejs@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.npm.taobao.org/react-sortablejs/download/react-sortablejs-2.0.11.tgz#eecf621f801ab8c16a8a5c3c856005f0795ccbcf"
+  integrity sha1-7s9iH4AauMFqilw8hWAF8Hlcy88=
+  dependencies:
+    "@types/sortablejs" "^1.10.0"
+    classnames "^2.2.6"
+    sortablejs "1.10.1"
+    tiny-invariant "^1.0.6"
+
 react@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npm.taobao.org/react/download/react-16.13.1.tgz?cache=0&sync_timestamp=1595005541998&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
@@ -10380,6 +10395,11 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
+sortablejs@1.10.1:
+  version "1.10.1"
+  resolved "https://registry.npm.taobao.org/sortablejs/download/sortablejs-1.10.1.tgz#3d52b00f871be00f00f84d99a60d120bf3dfe52c"
+  integrity sha1-PVKwD4cb4A8A+E2Zpg0SC/Pf5Sw=
+
 source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
@@ -10915,6 +10935,11 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
+
+tiny-invariant@^1.0.6:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/tiny-invariant/download/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
+  integrity sha1-Y0xfjv3CdxS384bDXmdgmR0jCHU=
 
 tinycolor2@^1.4.1:
   version "1.4.1"

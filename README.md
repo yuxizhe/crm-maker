@@ -22,9 +22,11 @@
 ├── components
 │   ├── Config.js         右侧组件配置
 │   ├── Drawer.js         左侧组件选择抽屉
+│   ├── Editor.js         中间的编辑器
 │   ├── InitJson.js       组件初始化json
 │   ├── Item.js           组件
 │   └── ItemContainer.js  容器组件
+├── stores                mobx store
 ├── index.css
 ├── index.js
 └── util
