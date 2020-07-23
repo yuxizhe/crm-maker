@@ -7,21 +7,8 @@ import { basicComponents, layoutComponents } from './InitJson'
 class Drawer extends React.Component {
   render() {
     return (
-
-      <div>
-        <ReactSortable
-          list={layoutComponents}
-          setList={() => {}}
-          group={{ name: "cloning-group-name", pull: "clone", put: false }}
-          sort={false}
-        >
-          {layoutComponents.map(item => {
-            return (
-              <Button style={{ margin: '2px' }} type="dashed" key={item.componentName}>{item.componentText}</Button>
-            )
-          })}
-        </ReactSortable>
-        <Divider />
+      <div style={{padding: '5px'}}>
+        输入组件
         <ReactSortable
           list={basicComponents}
           setList={() => {}}
@@ -29,6 +16,20 @@ class Drawer extends React.Component {
           sort={false}
         >
           {basicComponents.map(item => {
+            return (
+              <Button style={{ margin: '2px' }} type="dashed" key={item.componentName}>{item.componentText}</Button>
+            )
+          })}
+        </ReactSortable>
+        <Divider />
+        容器组件
+        <ReactSortable
+          list={layoutComponents}
+          setList={() => {}}
+          group={{ name: "cloning-group-name", pull: "clone", put: false }}
+          sort={false}
+        >
+          {layoutComponents.map(item => {
             return (
               <Button style={{ margin: '2px' }} type="dashed" key={item.componentName}>{item.componentText}</Button>
             )
