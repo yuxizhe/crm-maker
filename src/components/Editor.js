@@ -17,11 +17,8 @@ class Drawer extends React.Component {
         <ReactSortable
           list={list}
           setList={(newList, func, dragStore) => {
-            // TODO: 提PR修改react-sortablejs库的逻辑
-            // 判断是add还是move ..
-            if(JSON.stringify(this.DSL.schema.children).length === JSON.stringify(newList).length ) {
-              this.DSL.schema.children = newList
-            }
+            // TODO: 提PR修改react-sortablejs库的逻辑. onAdd     
+            this.DSL.schema.children = newList
           }}
           group={{ name: "cloning-group-name" }}
           onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, list)}

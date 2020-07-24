@@ -105,6 +105,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     if (!children || children == null) return null;
     const dataid = dataIdAttr || "data-id";
     return Children.map(children as ReactElement<any>[], (child, index) => {
+      if (!child) return;
       const item = list[index];
       const {
         className: prevClassName,
@@ -216,7 +217,8 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   // SORTABLE DOM HANDLING
 
   onAdd(evt: MultiDragEvent) {
-    const { list, setList } = this.props;
+    const { list, setList, onAdd } = this.props;
+    if (onAdd) return;
     const otherList = [...store.dragging!.props.list];
     const customs = createCustoms(evt, otherList);
     removeNodes(customs);

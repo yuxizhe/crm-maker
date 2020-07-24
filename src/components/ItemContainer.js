@@ -17,11 +17,8 @@ class ItemContainer extends React.Component {
             <ReactSortable
               list={element.children}
               setList={(newList, func, dragStore) => {
-                // TODO: 提PR修改react-sortablejs库的逻辑
-                // 判断是add还是move ..
-                if(JSON.stringify(element.children).length === JSON.stringify(newList).length ) {
-                  element.children = newList
-                }
+                // TODO: 提PR修改react-sortablejs库的逻辑. onAdd
+                element.children = newList
               }}
               group={{ name: "cloning-group-name" }}
               onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children)}
