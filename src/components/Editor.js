@@ -31,7 +31,7 @@ class Drawer extends React.Component {
         >
             {list.map(item => {
               return (
-                <ItemContainer element={item}/>
+                <ItemContainer key={item.props.key} element={item}/>
               )
             })}
         </ReactSortable>

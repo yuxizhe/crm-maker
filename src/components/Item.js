@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Input, Select, TimePicker, DatePicker, Checkbox, Radio, } from 'antd';
+import { Button, Input, Select, TimePicker, DatePicker, Checkbox, Radio, Divider, Descriptions} from 'antd';
 
 const { TextArea } = Input;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
+const DescriptionsItem = Descriptions.Item;
 
 class Item extends React.Component {
   
@@ -15,12 +16,20 @@ class Item extends React.Component {
       <div>
         {element.componentText}: 
         {element.componentName === 'Button' &&
-          <Button block style={{ margin: '2px' }} type="dashed" key={element.props.key}>
+          <Button>
             {element.componentText}
           </Button>
         }
         {element.componentName === 'Input' &&
           <Input />
+        }
+        {element.componentName === 'DescriptionsItem' &&
+          <DescriptionsItem label={element.props.label}>
+            {element.props.defaultValue}
+          </DescriptionsItem>
+        }
+        {element.componentName === 'Divider' &&
+          <Divider />
         }
         {element.componentName === 'TextArea' &&
           <TextArea />

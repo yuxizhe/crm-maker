@@ -16,7 +16,7 @@ export const addItem = (evt, func, dragStore, editList) => {
   
   editList[newIndex] = component
 
-  console.log(JSON.parse(JSON.stringify(editList)))
+  // console.log(JSON.parse(JSON.stringify(editList)))
 }
 
 export const moveItem = (moveEvt, evt, func, dragStore, editList) => {

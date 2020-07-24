@@ -22,7 +22,7 @@ class Drawer extends React.Component {
           })}
         </ReactSortable>
         <Divider />
-        容器组件
+        展示组件
         <ReactSortable
           list={layoutComponents}
           setList={() => {}}
