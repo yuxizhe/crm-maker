@@ -93,10 +93,10 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       dataIdAttr,
       selectedClass = "sortable-selected",
       chosenClass = "sortable-chosen",
-      dragClass = "sortable-drag",
-      fallbackClass = "sortable-falback",
-      ghostClass = "sortable-ghost",
-      swapClass = "sortable-swap-highlight",
+      // dragClass = "sortable-drag",
+      // fallbackClass = "sortable-falback",
+      // ghostClass = "sortable-ghost",
+      // swapClass = "sortable-swap-highlight",
       filter = "sortable-filter",
       list
     } = this.props;
