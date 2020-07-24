@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Button } from 'antd';
 import {inject, observer} from 'mobx-react';
-import { ReactSortable } from "react-sortablejs";
+import { ReactSortable } from "../lib/react-sortablejs/index.ts";
 import { addItem } from '../util/index';
 import ItemContainer from './ItemContainer';
 

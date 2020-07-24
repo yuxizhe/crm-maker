@@ -1,6 +1,6 @@
 import React from 'react';
 import { Divider, Button } from 'antd';
-import { ReactSortable } from "react-sortablejs";
+import { ReactSortable } from "../lib/react-sortablejs/index.ts";
 
 import { basicComponents, layoutComponents } from './InitJson'
 
