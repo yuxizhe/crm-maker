@@ -6,6 +6,7 @@ import './App.less';
 
 import Drawer from './components/Drawer';
 import Editor from './components/Editor';
+import ConfigItem from './components/Config';
 
 const { Header, Content, Sider } = Layout;
 
@@ -21,7 +22,10 @@ const App = () => (
           <Content>
             <Editor />
           </Content>
-          <Sider collapsible>设置栏</Sider>
+          <Sider collapsible>
+            设置栏
+            <ConfigItem />
+          </Sider>
         </Layout>
       </Layout>
     </Provider>

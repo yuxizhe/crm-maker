@@ -1,18 +1,20 @@
 /**
  * 全局Store
  */
-import { observable, autorun } from 'mobx';
+import { observable } from 'mobx';
 class Store {
   // 调试用
-  constructor() {
-    autorun(() => console.log(JSON.parse(JSON.stringify(this.schema))));
-  }
+  // constructor() {
+  //   autorun(() => console.log(JSON.parse(JSON.stringify(this.schema))));
+  // }
 
-  @observable schema = {
+  @observable.deep schema = {
     "componentName": "Page",
     "props": {},
     "children": []
   }
+
+  @observable selectItem = {}
 }
 export default {
   DSL: new Store()

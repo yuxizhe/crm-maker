@@ -3,7 +3,7 @@ export const randomID = () => {
   return Date.parse(new Date()) + '_' + Math.ceil(Math.random() * 99999);
 }
 
-export const addItem = (evt, func, dragStore, editList) => {
+export const addItem = (evt, func, dragStore, editList, DSL) => {
   const newIndex = evt.newIndex
   //为拖拽到容器的元素添加唯一 key
   const key = randomID();
@@ -16,6 +16,7 @@ export const addItem = (evt, func, dragStore, editList) => {
   
   editList[newIndex] = component
 
+  DSL.selectItem = editList[newIndex]
   // console.log(JSON.parse(JSON.stringify(editList)))
 }
 

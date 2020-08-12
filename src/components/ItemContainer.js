@@ -1,10 +1,11 @@
 import React from 'react';
 // import { Button } from 'antd';
 import Item from './Item';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { ReactSortable } from "../lib/react-sortablejs/index.ts";
 import { addItem } from '../util/index';
 
+@inject('DSL')
 @observer
 class ItemContainer extends React.Component {
   render() {
@@ -21,7 +22,7 @@ class ItemContainer extends React.Component {
                 element.children = newList
               }}
               group={{ name: "cloning-group-name" }}
-              onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children)}
+              onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children, this.props.DSL)}
               // move function 没有找到新旧index
               // onMove={(moveEvt, evt, func, dragStore) => moveItem(moveEvt, evt, func, dragStore, list)}
               style={{minHeight: '50px'}}

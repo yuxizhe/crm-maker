@@ -7,7 +7,7 @@ import ItemContainer from './ItemContainer';
 
 @inject('DSL')
 @observer
-class Drawer extends React.Component {
+class Editor extends React.Component {
   DSL = this.props.DSL;
 
   render() {
@@ -21,7 +21,7 @@ class Drawer extends React.Component {
             this.DSL.schema.children = newList
           }}
           group={{ name: "cloning-group-name" }}
-          onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, list)}
+          onAdd={(evt, func, dragStore) => {addItem(evt, func, dragStore, list, this.DSL)}}
           // move function 没有找到新旧index
           // onMove={(moveEvt, evt, func, dragStore) => moveItem(moveEvt, evt, func, dragStore, list)}
           style={{minHeight: '90vh'}}
@@ -38,4 +38,4 @@ class Drawer extends React.Component {
 
 }
 
-export default Drawer
+export default Editor
