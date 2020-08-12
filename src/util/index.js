@@ -1,6 +1,6 @@
 
 export const randomID = () => {
-  return Date.parse(new Date()) + '_' + Math.ceil(Math.random() * 99999);
+  return Math.ceil(Math.random() * 99999);
 }
 
 export const addItem = (evt, func, dragStore, editList, DSL) => {

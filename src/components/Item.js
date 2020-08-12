@@ -30,7 +30,11 @@ class Item extends React.Component {
         {element.componentName === 'Input' &&
           <div className="form-item-line">
             <span className="label">{element.props.label}: </span>
-            <Input placeholder={element.props.placeholder}/>
+            <Input
+              placeholder={element.props.placeholder}
+              value={element.props.defaultValue}
+              onChange={(e) => {element.props.defaultValue = e.target.value}}
+            />
           </div>
         }
         {element.componentName === 'DescriptionsItem' &&
