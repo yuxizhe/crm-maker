@@ -8,10 +8,19 @@ import { addItem } from '../util/index';
 @inject('DSL')
 @observer
 class ItemContainer extends React.Component {
+  DSL = this.props.DSL;
+  element = this.props.element;
+
+  checkSelect = () => {
+    if(this.element.props && this.DSL.selectItem.props && this.element.props.key === this.DSL.selectItem.props.key) {
+      return 'selected'
+    }
+  }
+
   render() {
     let element = this.props.element;
     return (
-      <div className={'item-container'}>
+      <div className={`item-container ${this.checkSelect()}`}>
         {element.componentName.match(/^(Modal|Card|Descriptions)$/) ?
           <div>
             {element.componentText}: 
@@ -30,7 +39,7 @@ class ItemContainer extends React.Component {
                 {element.children.map(item => {
                   return (
                     // <Item key={item.props.key} element={item} />
-                    <ItemContainer key={item.props.key} element={item}/>
+                    <ItemContainer key={item.props.key} element={item} DSL={this.props.DSL}/>
                   )
                 })}
             </ReactSortable>

@@ -2,7 +2,8 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Provider } from 'mobx-react';
 import stores from './stores/';
-import './App.less';
+import './style/AntD.less';
+import './style/App.less';
 
 import Drawer from './components/Drawer';
 import Editor from './components/Editor';
