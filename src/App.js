@@ -17,7 +17,7 @@ const App = () => (
       <Layout>
         <Header>CRM生成器</Header>
         <Layout>
-          <Sider collapsible width={190}>
+          <Sider collapsible width={200}>
             <Drawer />
           </Sider>
           <Content>

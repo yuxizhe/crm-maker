@@ -17,6 +17,23 @@ export const basicComponents = [
     }
   },
   {
+    componentName: 'InputNumber',
+    componentText: '数字输入框',
+    componentType: 'FormItem',
+    icon: 'icon-input',
+    props: {
+      label: '数字输入框',
+      dataType: 'string',
+      width: '100%',
+      defaultValue: '',
+      required: false,
+      datacomponentName: 'number',
+      pattern: '',
+      placeholder: '',
+      disabled: false,
+    }
+  },
+  {
     componentName: 'TextArea',
     componentText: '文本框',
     componentType: 'FormItem',
@@ -207,6 +224,15 @@ export const basicComponents = [
       width: '',
     }
   },
+  {
+    componentName: 'Upload',
+    componentText: '上传图片组件',
+    componentType: 'FormItem',
+    icon: 'icon-date',
+    props: {
+      label: '上传图片',
+    }
+  },
   // {
   //   componentName: 'text',
   //   componentText: '文本',
@@ -284,6 +310,16 @@ export const layoutComponents = [
           default: '地址1地址1'
         }
       ],
+      functions: [
+        {
+          label: '编辑',
+          function: 'onModalEdit'
+        },
+        {
+          label: '删除',
+          function: 'onTableItemDelete'
+        }
+      ],
       // pagination: {
       //   total: this.store.total,
       //   defaultPageSize: 20,
@@ -309,7 +345,13 @@ export const layoutComponents = [
     props: {
       label: '按钮',
       "type": "primary",
-      "onClick": "{{this.onSubmit}}"
+      "onClick": "{{this.onSubmit}}",
+      functions: [
+        "{{this.onSubmit}}",
+        "{{this.onModalAdd}}",
+        "{{this.onSearch}}"
+      ],
+      style:"{{{ marginLeft: '10px' }}}"
     },
     children: '确认',
     icon: 'icon-grid-',

@@ -32,6 +32,9 @@ export default function (schema, option = {
   // mobx
   const mobxVar = [];
 
+  // mobxModal
+  const mobxModalVar = [];
+
   // mobx function
   const mobxFunction = [];
 
@@ -40,6 +43,9 @@ export default function (schema, option = {
 
   const componentsMap = option.componentsMap;
   const components = [];
+
+  // 转成string 通过match判断是否需要某些功能
+  const schemaString = JSON.stringify(schema);
 
   // 处理 import 相关
   const importComponent = (type) => {
@@ -77,17 +83,22 @@ export default function (schema, option = {
   };
 
   // 处理mobx相关
-  const mobxComponent = (type, schema) => {
-    if (type === 'FormItem' || type === 'DescriptionsItem') {
-      if(schema.props.defaultValue) { // defaultValue处理
-        if(schema.children && schema.children[0] && (schema.children[0].componentName.match(/^(DatePicker|TimePicker|RangePicker)/))){
-          if(Array.isArray(schema.props.defaultValue)){
-            const defaultValue=`[${schema.props.defaultValue.map((m)=>`moment('${m}')`)}]`;
+  const mobxComponent = (type, schema, nameChain) => {
+    if (type === 'FormItem' || type === 'DescriptionsItem' || type === 'Div' || type === 'Span') {
+      // modal里的变量单独处理
+      if (nameChain.match('Modal')) {
+        mobxModalVar.push(schema.props.name);
+        return;
+      }
+      if (schema.props.defaultValue) { // defaultValue处理
+        if (schema.children && schema.children[0] && (schema.children[0].componentName.match(/^(DatePicker|TimePicker|RangePicker)/))) {
+          if (Array.isArray(schema.props.defaultValue)) {
+            const defaultValue = `[${schema.props.defaultValue.map((m) => `moment('${m}')`)}]`;
             mobxVar.push(`@observable ${schema.props.name} =${defaultValue}`)
-          }else{
+          } else {
             mobxVar.push(`@observable ${schema.props.name} =moment('${schema.props.defaultValue}')`)
           }
-        }else{
+        } else {
           if (typeof schema.props.defaultValue !== 'string') {
             schema.props.defaultValue = JSON.stringify(schema.props.defaultValue);
           }
@@ -96,11 +107,60 @@ export default function (schema, option = {
       } else {
         mobxVar.push(`@observable ${schema.props.name} =""`)
       }
-    } else if (type === 'Modal'){
-      mobxVar.push(`@observable ${schema.props.name} = true`)
+    } else if (type === 'Modal') {
+    // 处理modal相关逻辑
+      mobxVar.push(`@observable modalShow = true`)
+
+      mobxVar.push(`@observable modalType = 'add'`)
+
+      mobxVar.push(`@observable editItemIndex = ''`)
+
+      mobxFunction.push(`
+      @action
+      initModal() {
+        Object.keys(this.modalData).map((key) => {
+          this.modalData[key] = '';
+          return '';
+        });
+        this.modalType = 'add';
+      }
+      `)
+
+      mobxFunction.push(`
+      @action
+      setModal(index) {
+        this.initModal();
+        const record = this.dataList[index];
+        this.modalData = Object.assign(this.modalData, record);
+
+        this.modalType = 'edit';
+        this.editItemIndex = index;
+      }
+      `)
+
+      mobxFunction.push(`
+      @action
+      setDataList(formValues) {
+        let datas;
+        if (this.modalType === 'add') {
+          datas = formValues;
+        } else if (this.modalType === 'edit') {
+          const oldData = this.dataList[this.editItemIndex];
+          datas = Object.assign(oldData, formValues);
+        }
+        HttpClient.post('/mock/add_or_update', { ...datas })
+          .then(action((res) => {
+            if (!res.error_code) {
+              message.success('操作成功！');
+              this.getList();
+            }
+          }));
+      }
+      `)
+
     } else if (type === 'Table') {
       mobxVar.push(`
-      @observable ${schema.props.name} = ${JSON.stringify(schema.props.dataSource)}
+      @observable dataList = ${JSON.stringify(schema.props.dataSource)}
 
       @observable tablePagination = {
         current: 1,
@@ -118,17 +178,32 @@ export default function (schema, option = {
           page,
         }).then(
           action((res) => {
-            const { data } = res;
+            const { data, error_code } = res;
             this.tableLoading = false;
-            if (data.list && data.list.length > 0) {
-              this.${schema.props.name} = data.list;
-              this.tablePagination.current = data.page;
-              this.tablePagination.total = data.total;
+            if (!error_code) {
+              this.dataList = data.items;
+              this.tablePagination.current = data.current_page;
+              this.tablePagination.total = data.total_pages;
             }
           }),
         );
       }
       `)
+
+      mobxFunction.push(`
+      @action
+      deleteDateList(id) {
+        HttpClient.post('/mock/delete.json', { id })
+          .then(action((res) => {
+            if (!res.error_code) {
+              message.success('操作成功！');
+              this.getList();
+            }
+          }));
+      }
+      `)
+
+      subImports.push('const { confirm } = Modal;')
     }
   }
 
@@ -161,42 +236,6 @@ export default function (schema, option = {
     return string.split(/(?=[A-Z])/).join('-').toLowerCase();
   }
 
-  // convert to responsive unit, such as vw
-  const parseStyle = (styles) => {
-    for (let style in styles) {
-      for (let key in styles[style]) {
-        switch (key) {
-          case 'fontSize':
-          case 'marginTop':
-          case 'marginBottom':
-          case 'paddingTop':
-          case 'paddingBottom':
-          case 'height':
-          case 'top':
-          case 'bottom':
-          case 'width':
-          case 'maxWidth':
-          case 'left':
-          case 'right':
-          case 'paddingRight':
-          case 'paddingLeft':
-          case 'marginLeft':
-          case 'marginRight':
-          case 'lineHeight':
-          case 'borderBottomRightRadius':
-          case 'borderBottomLeftRadius':
-          case 'borderTopRightRadius':
-          case 'borderTopLeftRadius':
-          case 'borderRadius':
-            styles[style][key] = (parseInt(styles[style][key]) / _w).toFixed(2) + 'vw';
-            break;
-        }
-      }
-    }
-
-    return styles;
-  }
-
   // parse function, return params and content
   const parseFunction = (func) => {
     const funcString = func.toString();
@@ -224,7 +263,7 @@ export default function (schema, option = {
       } else {
         return `'${value}'`;
       }
-      
+
     } else if (typeof value === 'function') {
       const { params, content } = parseFunction(value);
       return `(${params}) => {${content}}`;
@@ -232,7 +271,7 @@ export default function (schema, option = {
       return value;
     } else if (typeof value === 'object') {
       return JSON.stringify(value);
-    }else if (typeof value === 'number'){
+    } else if (typeof value === 'number') {
       return value;
     }
   }
@@ -278,7 +317,7 @@ export default function (schema, option = {
       ${action}(${parseProps(uri)}, ${toString(payload)})
         .then((response) => response.json())
     `;
-      
+
     if (data.dataHandler) {
       const { params, content } = parseFunction(data.dataHandler);
       result += `.then((${params}) => {${content}})
@@ -327,16 +366,16 @@ export default function (schema, option = {
   }
 
   // 组件引入&变量引入
-  const parseComponentAndMobx = (type, schema) => {
+  const parseComponentAndMobx = (type, schema, nameChain) => {
     // antd import处理
     importComponent(type);
 
     // mobx 处理
-    mobxComponent(type, schema)
+    mobxComponent(type, schema, nameChain)
   }
 
   // generate render xml
-  const generateRender = (schema, parentSchema) => {
+  const generateRender = (schema, parentSchema, nameChain) => {
     let type = schema.componentName;
     const className = schema.props && schema.props.className;
     const classString = className ? ` style={styles.${className}}` : '';
@@ -354,7 +393,7 @@ export default function (schema, option = {
     //   console.log(schema.props)
     // }
     Object.keys(schema.props || {}).forEach((key) => {
-      if (['className', 'style', 'text', 'src', 'dataSource', 'rules','defaultValue'].indexOf(key) === -1) {
+      if (['className', 'text', 'src', 'dataSource', 'rules', 'defaultValue'].indexOf(key) === -1) {
         props += ` ${key}={${parseProps(schema.props[key])}}`;
       }
     })
@@ -397,66 +436,72 @@ export default function (schema, option = {
         })
       }
     }
+
+    const modalStore = nameChain && nameChain.match('Modal') ? 'modalData.' : '';
+    const newNameChain = `${nameChain}-${type}`;
+
     switch (type) {
       case 'Text':
-        const innerText = parseProps(schema.props.text, true);
+        const innerText = schema.children;
         xml = `<span${classString}${props}>${innerText}</span>`;
         break;
       case 'Image':
         const source = parseProps(schema.props.src);
         xml = `<img${classString}${props} src={${source}} />`;
         break;
+      case 'Span':
+        if (schema.children && schema.children.length) {
+          xml = `<span${classString}${props}>${transform(schema.children, schema, newNameChain)}</span>`;
+        } else {
+          xml = `<span${classString}${props} />`;
+        }
+        break;
       case 'Div':
       case 'Page':
       case 'Block':
       case 'Component':
         if (schema.children && schema.children.length) {
-          xml = `<div${classString}${props}>${transform(schema.children)}</div>`;
+          xml = `<div${classString}${props}>${transform(schema.children, schema, newNameChain)}</div>`;
         } else {
           xml = `<div${classString}${props} />`;
         }
         break;
       // antd 组件元素处理
       case 'FormItem':
-        console.log(props)
+
         xml = `
           <${type}${classString}${props}>
             {getFieldDecorator('${schema.props.name}', {
-              initialValue: this.store.${schema.props.name},
+              initialValue: this.store.${modalStore}${schema.props.name},
               rules: ${JSON.stringify(schema.props.rules)}
             })(
-              ${transform(schema.children, schema)},
+              ${transform(schema.children, schema, newNameChain)},
             )}
           </${type}>`;
-
-        parseComponentAndMobx(type, schema)
         break;
 
       case 'Table':
         xml = `<${type}${classString}${props} 
           pagination={this.store.tablePagination} 
           loading={this.store.tableLoading}
-          dataSource={this.store.${schema.props.name}}
+          dataSource={this.store.dataList}
           onChange={e => this.store.getList(e.current)}
         >${transform(schema.children)}</${type}>`;
-
-        parseComponentAndMobx(type, schema)
         break;
-      
+
       case 'Input':
       case 'TextArea':
       case 'RadioGroup':
         if (schema.children && schema.children.length) {
           xml = `<${type}${classString}${props} 
-                  onChange={e => this.store.${parentSchema ? parentSchema.props.name : 'none'} = e.target.value} >
+                  onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e.target.value} 
+                 >
                  ${transform(schema.children)}</${type}>`;
         } else {
           xml = `<${type}${classString}${props} 
-                  onChange={e => this.store.${parentSchema ? parentSchema.props.name : 'none'} = e.target.value} 
-                  />`;
+                  onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e.target.value} 
+                />`;
         }
-
-        parseComponentAndMobx(type, schema)
         break;
       case 'Select':
       case 'CheckboxGroup':
@@ -464,39 +509,36 @@ export default function (schema, option = {
       case 'Slider':
         if (schema.children && schema.children.length) {
           xml = `<${type}${classString}${props} 
-                  onChange={e => this.store.${parentSchema ? parentSchema.props.name : 'none'} = e} >
+                  onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e}
+                 >
                  ${transform(schema.children)}</${type}>`;
         } else {
           xml = `<${type}${classString}${props} 
-                  onChange={e => this.store.${parentSchema ? parentSchema.props.name : 'none'} = e} 
-                  />`;
+                  onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e} 
+                />`;
         }
-
-        parseComponentAndMobx(type, schema)
         break;
-      
+
       case 'DatePicker':
       case 'TimePicker':
       case 'RangePicker':
         xml = `<${type}${classString}${props} 
-              onChange={(date, dateString) => this.store.${parentSchema ? parentSchema.props.name : 'none'} = dateString} 
+              onChange={(date, dateString) => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = dateString} 
               />`;
-
-        parseComponentAndMobx(type, schema)
         break;
       case 'DescriptionsItem':
         xml = `<${type}${classString}${props}>{this.store.${schema.props.name}}</${type}>`;
-        parseComponentAndMobx(type, schema);
         break;
       default:
         if (schema.children && schema.children.length) {
-          xml = `<${type}${classString}${props}>${transform(schema.children)}</${type}>`;
+          xml = `<${type}${classString}${props}>${transform(schema.children, schema, newNameChain)}</${type}>`;
         } else {
           xml = `<${type}${classString}${props} />`;
         }
-        parseComponentAndMobx(type, schema)
         break;
     }
+
+    parseComponentAndMobx(type, schema, newNameChain)
 
     if (schema.loop) {
       xml = parseLoop(schema.loop, schema.loopArgs, xml)
@@ -513,7 +555,7 @@ export default function (schema, option = {
 
   const prettierCode = (code) => {
     try {
-      return prettier.format(code,prettierOpt)
+      return prettier.format(code, prettierOpt)
     } catch (error) {
       console.error(error)
       debugger
@@ -521,12 +563,12 @@ export default function (schema, option = {
     }
   }
   // parse schema
-  const transform = (schema, parentSchema) => {
+  const transform = (schema, parentSchema, nameChain) => {
     let result = '';
 
     if (Array.isArray(schema)) {
       schema.forEach((layer) => {
-        result += transform(layer, parentSchema);
+        result += transform(layer, parentSchema, nameChain);
       });
     } else if (typeof schema === 'string') {
       // text string children
@@ -609,7 +651,7 @@ export default function (schema, option = {
           });
         }
 
-        render.push(generateRender(schema, parentSchema))
+        render.push(generateRender(schema, parentSchema, nameChain))
         render.push(`);}`);
 
         classData = classData.concat(states).concat(lifeCycles).concat(methods).concat(render);
@@ -617,7 +659,7 @@ export default function (schema, option = {
 
         classes.push(classData.join('\n'));
       } else {
-        result += generateRender(schema, parentSchema);
+        result += generateRender(schema, parentSchema, nameChain);
       }
     }
 
@@ -634,17 +676,44 @@ export default function (schema, option = {
   if (!schema.methods) {
     schema.methods = []
   }
-  schema.methods['onSubmit'] = function (e, fieldNames) {
-    e.preventDefault();
-    this.props.form.validateFields(fieldNames, (err, formValues) => {
-      if (!err) {
-        alert(JSON.stringify(formValues))
-        Object.keys(formValues).map((key) => {
-          this.store[key] = formValues[key];
-        })
-      }
-    });
-  };
+
+  if(schemaString.match('onSubmit')) {
+    schema.methods['onSubmit'] = `function (e, fieldNames) {
+      e.preventDefault();
+      this.props.form.validateFields(fieldNames, (err, formValues) => {
+        if (!err) {
+          alert(JSON.stringify(formValues))
+          // trim values
+          const trimValues = formValues;
+          Object.keys(trimValues).map(key => trimValues[key] = typeof trimValues[key] === 'string' ? trimValues[key].trim() : trimValues[key]);
+          this.store.setDataList(trimValues);
+          this.store.initModal();
+          this.store.modalShow = false;
+        }
+      });
+    };`
+  }
+
+  if(schemaString.match('onSearch')) {
+    schema.methods['onSearch'] = `function () {
+      this.store.getList();
+    };`
+  }
+
+  if(schemaString.match('Modal')) {
+    schema.methods['onModalAdd'] = `function() {
+      this.props.form.resetFields();
+      this.store.initModal();
+      this.store.modalShow = true;
+    }`
+  
+    schema.methods['onModalEdit'] = `function(record, index) {
+      this.props.form.resetFields();
+      this.store.setModal(index);
+      this.store.modalShow = true;
+    }`
+  }
+
   // start parse schema
   transform(schema);
 
@@ -677,6 +746,12 @@ export default function (schema, option = {
 
   class Store {
     ${mobxVar.join('\n\n')}
+
+    ${schemaString.match('Modal') &&
+      `@observable modalData = {
+        ${mobxModalVar.map(item => `${item}:''\n`)}
+      }`
+    }
 
     ${mobxFunction.join('\n\n')}
   }

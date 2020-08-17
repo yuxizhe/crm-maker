@@ -4,9 +4,11 @@
  * @param {object} jsonData 
  */
 
+let schemaString = ''
 
 function processItem(item) {
   let child;
+  // 是否是表单项
   if (item.componentType === 'FormItem') {
     child = {
       "componentName": "FormItem",
@@ -19,9 +21,34 @@ function processItem(item) {
       "children": [{
         ...item,
         props: {
-          dataSource: item.props.dataSource
+          dataSource: item.props.dataSource,
+          placeholder: item.props.placeholder
         }
       }]
+    }
+  // 非表单项 纯受控组件
+  } else if (item.componentType === 'InputItem' && item.props.label) {
+    child = {
+      componentName: "Span",
+      props: {
+        style: "{{{margin: '0px 10px'}}}",
+        name: item.props.name,
+      },
+      children: [
+        {
+          componentName: 'Text',
+          children: item.props.label + ' : ',
+        },
+        {
+          ...item,
+          props: {
+            // name: item.props.name,
+            style: "{{{maxWidth: '100px'}}}",
+            dataSource: item.props.dataSource,
+            placeholder: item.props.placeholder
+          }
+        }
+      ]
     }
   } else {
     child = item
@@ -50,6 +77,19 @@ function processContainer(item) {
         }
       }),
     }
+    // 操作栏 生成 functions
+    if (item.props.functions && item.props.functions.length > 0) {
+      container.children.push({
+        'componentName': 'TableColumn',
+        'props': {
+          'title': '操作',
+          'render':'{{(text, record, index) => (<div>'
+          + (schemaString.match('onModalEdit') && '<Button style={{ marginRight: 12 }} type="default" size="small" onClick={() => this.onModalEdit(record, index)}>编辑</Button>')
+          + (schemaString.match('onTableItemDelete') && '<Button style={{ marginRight: 12 }} type="danger" size="small" onClick={() => confirm({ title: "确认删除吗?", onOk: () => { this.store.deleteDateList(record.id);},okText: "确认",cancelText: "取消",})}>删除</Button>')
+          + '</div>)}}'
+        }
+      })
+    }
   } else if (item.componentName === 'Row') {
     container = {
       "componentName": "Row",
@@ -72,9 +112,9 @@ function processContainer(item) {
         ...item,
         "props": {
           "name": item.props.name,
-          "visible": `{{this.store.${item.props.name}}}`,
+          "visible": `{{this.store.modalShow}}`,
           "onOk": `{{(e) => this.onSubmit(e, [${item.children.map(item => "'" + item.props.name + "'")}])}}`,
-          "onCancel": `{{() => this.store.${item.props.name} = false}}`
+          "onCancel": `{{() => this.store.modalShow = false}}`
         },
         "children": [{
           "componentName": "Form",
@@ -105,6 +145,9 @@ export default function (jsonData) {
       "children": [],
     }],
   }
+
+  schemaString = JSON.stringify(jsonData);
+
   jsonData.children.map(item => {
     const processed = processContainer(item)
     // Modal 和 Table 不放在form里
