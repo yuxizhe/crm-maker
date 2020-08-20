@@ -1,3 +1,5 @@
+import prettier from "prettier/standalone";
+import parserBabel from "prettier/parser-babel";
 
 export const randomID = () => {
   return Math.ceil(Math.random() * 99999);
@@ -29,4 +31,19 @@ export const moveItem = (moveEvt, evt, func, dragStore, editList) => {
   editList[evt.oldIndex] = newItem
 
   console.log(JSON.parse(JSON.stringify(editList)))
+}
+
+export const prettierCode = (code, parser) => {
+  try {
+    return prettier.format(code, {
+      parser,
+      printWidth: 120,
+      singleQuote: true,
+      plugins: [parserBabel]
+    })
+  } catch (error) {
+    console.error(error)
+    debugger
+    return code
+  }
 }

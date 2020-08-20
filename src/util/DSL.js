@@ -39,7 +39,7 @@ export default function (schema, option = {
   const mobxFunction = [];
 
   // 1vw = width / 100
-  const _w = 750;
+  // const _w = 750;
 
   const componentsMap = option.componentsMap;
   const components = [];
@@ -74,7 +74,7 @@ export default function (schema, option = {
         subImports.push('const DescriptionsItem = Descriptions.Item')
       } else if (type === 'RangePicker') {
         subImports.push('const { RangePicker } = DatePicker')
-        antdImport.indexOf('DatePicker') == -1 && antdImport.push('DatePicker');
+        antdImport.indexOf('DatePicker') === -1 && antdImport.push('DatePicker');
       } else {
         antdImport.push(type);
       }
@@ -232,14 +232,14 @@ export default function (schema, option = {
   };
 
   // flexDirection -> flex-direction
-  const parseCamelToLine = (string) => {
-    return string.split(/(?=[A-Z])/).join('-').toLowerCase();
-  }
+  // const parseCamelToLine = (string) => {
+  //   return string.split(/(?=[A-Z])/).join('-').toLowerCase();
+  // }
 
   // parse function, return params and content
   const parseFunction = (func) => {
     const funcString = func.toString();
-    const params = funcString.match(/\([^\(\)]*\)/)[0].slice(1, -1);
+    const params = funcString.match(/\([^()]*\)/)[0].slice(1, -1);
     const content = funcString.slice(funcString.indexOf('{') + 1, funcString.lastIndexOf('}'));
     return {
       params,
@@ -297,6 +297,8 @@ export default function (schema, option = {
         if (imports.indexOf(`import {fetchJsonp} from fetch-jsonp`) === -1) {
           imports.push(`import jsonp from 'fetch-jsonp'`);
         }
+        break;
+      default:
         break;
     }
 
@@ -433,6 +435,7 @@ export default function (schema, option = {
             },
             "children": item.label
           })
+          return ''
         })
       }
     }

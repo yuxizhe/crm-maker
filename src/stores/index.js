@@ -1,7 +1,7 @@
 /**
  * 全局Store
  */
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 class Store {
   // 调试用
   // constructor() {
@@ -15,6 +15,15 @@ class Store {
   }
 
   @observable selectItem = {}
+
+  @action
+  initSchema() {
+    this.schema = {
+      "componentName": "Page",
+      "props": {},
+      "children": []
+    }
+  }
 }
 export default {
   DSL: new Store()

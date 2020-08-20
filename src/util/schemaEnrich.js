@@ -156,6 +156,7 @@ export default function (jsonData) {
     } else {
       schema.children[0].children.push(processed)
     }
+    return ''
   })
   return {
     "componentName": "Page",
