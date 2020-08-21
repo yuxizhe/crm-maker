@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/crm-maker/static/js/main.3a7e4a60.chunk.js",
-    "main.js.map": "/crm-maker/static/js/main.3a7e4a60.chunk.js.map",
+    "main.js": "/crm-maker/static/js/main.e12292bf.chunk.js",
+    "main.js.map": "/crm-maker/static/js/main.e12292bf.chunk.js.map",
     "runtime-main.js": "/crm-maker/static/js/runtime-main.c7b1230c.js",
     "runtime-main.js.map": "/crm-maker/static/js/runtime-main.c7b1230c.js.map",
-    "static/js/2.94704833.chunk.js": "/crm-maker/static/js/2.94704833.chunk.js",
-    "static/js/2.94704833.chunk.js.map": "/crm-maker/static/js/2.94704833.chunk.js.map",
+    "static/js/2.03337cc6.chunk.js": "/crm-maker/static/js/2.03337cc6.chunk.js",
+    "static/js/2.03337cc6.chunk.js.map": "/crm-maker/static/js/2.03337cc6.chunk.js.map",
     "index.html": "/crm-maker/index.html",
-    "precache-manifest.a5b7992d1ce8a6ae0d4cb7b4e082a90f.js": "/crm-maker/precache-manifest.a5b7992d1ce8a6ae0d4cb7b4e082a90f.js",
+    "precache-manifest.faf046ed1be624ab848f919de51db1d2.js": "/crm-maker/precache-manifest.faf046ed1be624ab848f919de51db1d2.js",
     "service-worker.js": "/crm-maker/service-worker.js",
-    "static/js/2.94704833.chunk.js.LICENSE.txt": "/crm-maker/static/js/2.94704833.chunk.js.LICENSE.txt"
+    "static/js/2.03337cc6.chunk.js.LICENSE.txt": "/crm-maker/static/js/2.03337cc6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c7b1230c.js",
-    "static/js/2.94704833.chunk.js",
-    "static/js/main.3a7e4a60.chunk.js"
+    "static/js/2.03337cc6.chunk.js",
+    "static/js/main.e12292bf.chunk.js"
   ]
 }
