@@ -1,10 +1,12 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Drawer, Tabs } from 'antd';
-import { UnControlled as CodeMirror } from 'react-codemirror2'
+import { Controlled as CodeMirror } from 'react-codemirror2'
 import { prettierCode } from "../util";
 import generageCode from '../util/DSL';
 import enrichSchema from '../util/schemaEnrich';
+
+require('codemirror/mode/javascript/javascript');
 
 const { TabPane } = Tabs;
 
@@ -19,10 +21,16 @@ class Generage extends React.Component {
       code: '',
       store: '',
       type: 'schema',
+      input: '',
       drawerShow: false,
     }
   }
   importSchema = () => {
+    this.setState({
+      schema: prettierCode(JSON.stringify(this.DSL.schema), 'json'),
+      type: 'input',
+      drawerShow: true,
+    })
   }
   exportSchema = () => {
     this.setState({
@@ -68,6 +76,7 @@ class Generage extends React.Component {
               value={this.state.schema}
               options={{
                 lineNumbers: true,
+                theme: 'material',
               }}
             />
           }
@@ -78,6 +87,7 @@ class Generage extends React.Component {
                   value={this.state.code}
                   options={{
                     lineNumbers: true,
+                    theme: 'material',
                   }}
                 />
               </TabPane>
@@ -86,10 +96,33 @@ class Generage extends React.Component {
                   value={this.state.store}
                   options={{
                     lineNumbers: true,
+                    theme: 'material',
                   }}
                 />
               </TabPane>
             </Tabs>
+          }
+          {this.state.type === 'input' &&
+            <>
+              <div>请将schema数据粘贴到下方</div>
+              <br />
+              <CodeMirror
+                value={this.state.schema}
+                options={{
+                  lineNumbers: true,
+                }}
+                onBeforeChange={(editor, data, value) => {
+                  this.setState({schema: value});
+                }}
+                onChange={(editor, data, value) => {
+                  try {
+                    this.DSL.schema = JSON.parse(value);
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}
+              />
+            </>
           }
         </Drawer>
       </>
