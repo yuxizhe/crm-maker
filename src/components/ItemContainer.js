@@ -10,9 +10,10 @@ import { addItem } from '../util/index';
 class ItemContainer extends React.Component {
   DSL = this.props.DSL;
   element = this.props.element;
+  
 
-  checkSelect = () => {
-    if(this.element.props && this.DSL.selectItem.props && this.element.props.key === this.DSL.selectItem.props.key) {
+  checkSelect = (element) => {
+    if(element.props && this.DSL.selectItem.props && element.props.key === this.DSL.selectItem.props.key) {
       return 'selected'
     }
   }
@@ -20,7 +21,7 @@ class ItemContainer extends React.Component {
   render() {
     let element = this.props.element;
     return (
-      <div className={`item-container ${this.checkSelect()}`}>
+      <div className={`item-container ${this.checkSelect(element)}`}>
         {element.componentName.match(/^(Modal|Card|Descriptions)$/) ?
           <div>
             {element.componentText}: 
@@ -31,15 +32,18 @@ class ItemContainer extends React.Component {
                 element.children = newList
               }}
               group={{ name: "cloning-group-name" }}
-              onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children, this.props.DSL)}
+              onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children, this.DSL)}
               // move function 没有找到新旧index
               // onMove={(moveEvt, evt, func, dragStore) => moveItem(moveEvt, evt, func, dragStore, list)}
               style={{minHeight: '50px'}}
             >
                 {element.children.map(item => {
                   return (
-                    // <Item key={item.props.key} element={item} />
-                    <ItemContainer key={item.props.key} element={item} DSL={this.props.DSL}/>
+                    <div className={`item-container ${this.checkSelect(item)}`}>
+                      <Item key={item.props.key} element={item} />
+                    </div>
+                    // build 模式 引用自身出错
+                    // <ItemContainer key={item.props.key} element={item} DSL={this.DSL}/>
                   )
                 })}
             </ReactSortable>
