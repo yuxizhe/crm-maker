@@ -24,9 +24,18 @@ jobs:
           yarn install
           yarn build
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.5.9
+#       - name: Deploy 🚀
+#         uses: JamesIves/github-pages-deploy-action@3.5.9
+#         with:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           BRANCH: gh-pages # The branch the action should deploy to.
+#           FOLDER: build # The folder the action should deploy.
+      # 设置阿里云OSS的 id/secret，存储到 github 的 secrets 中
+      - name: setup aliyun oss
+        uses: manyuanrong/setup-ossutil@master
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
+          endpoint: oss-cn-beijing.aliyuncs.com
+          access-key-id: ${{ secrets.OSS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
+      - name: cp files to aliyun
+        run: ossutil cp -rf build oss://hub-dappwind/crm-maker/
