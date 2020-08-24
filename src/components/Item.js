@@ -1,6 +1,6 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
-import { Button, Input, Select, TimePicker, DatePicker, Checkbox, Radio, Divider, Descriptions} from 'antd';
+import { Button, Input, InputNumber, Select, TimePicker, DatePicker, Checkbox, Radio, Divider, Descriptions, Table} from 'antd';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -16,6 +16,16 @@ class Item extends React.Component {
 
   setSelect = () => {
     this.DSL.selectItem = this.props.element;
+  }
+  generateTableDefaultValue = () => {
+    const lineValue = {};
+    let defaultValue = [];
+    this.props.element.props.dataSource.map(item => lineValue[item.value] = item.default)
+    for(let i = 0; i < 3; i++) {
+      defaultValue.push(lineValue)
+    }
+    // this.props.element.props.defaultValue = defaultValue;
+    return defaultValue;
   }
   render() {
     let element = this.props.element;
@@ -34,6 +44,16 @@ class Item extends React.Component {
               placeholder={element.props.placeholder}
               value={element.props.defaultValue}
               onChange={(e) => {element.props.defaultValue = e.target.value}}
+            />
+          </div>
+        }
+        {element.componentName === 'InputNumber' &&
+          <div className="form-item-line">
+            <span className="label">{element.props.label}: </span>
+            <InputNumber
+              placeholder={element.props.placeholder}
+              value={element.props.defaultValue}
+              onChange={(e) => {element.props.defaultValue = e}}
             />
           </div>
         }
@@ -107,7 +127,28 @@ class Item extends React.Component {
             <span className="label">{element.props.label}: </span>
             <RangePicker />
           </div>
-        } 
+        }
+        {element.componentName === 'Table' &&
+          <Table
+            dataSource={this.generateTableDefaultValue()}
+          >
+            {
+              element.props.dataSource.map(item => 
+              <Table.Column
+                title={item.label}
+                dataIndex={item.value}
+                key={item.value}
+              />)
+            }
+            <Table.Column
+              title='操作'
+              render={() => <>
+                <Button>编辑</Button>
+                <Button>删除</Button>
+              </>
+              } />
+          </Table>
+        }
       </div>
     )
   }

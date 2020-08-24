@@ -23,6 +23,7 @@ class Store {
       "props": {},
       "children": []
     }
+    this.selectItem = {}
   }
 }
 export default {

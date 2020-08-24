@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Input, Switch, Icon, Button } from 'antd';
+import { Input, Switch, Icon, Button, Select } from 'antd';
+const { Option } = Select;
 
 @inject('DSL')
 @observer
@@ -49,7 +50,7 @@ class ConfigItem extends React.Component {
                 <span>选项：</span>
                 <Button
                   size='small'
-                  onClick={() => selectItem.props.dataSource.push({ label: 'label', value: 'value' })}
+                  onClick={() => selectItem.props.dataSource.push(JSON.parse(JSON.stringify(selectItem.props.props)))}
                 >新增</Button>
                 {selectItem.props.dataSource.map((item, index) => {
                   return <div className="options">
@@ -61,7 +62,20 @@ class ConfigItem extends React.Component {
                       onClick={() => selectItem.props.dataSource.splice(index, 1)}
                     />
                   </div>
-                })}             
+                })}
+              </div>
+            }
+            {itemProps.indexOf('functions') >= 0 &&
+              <div className="config-item-line">
+                <span>function：</span>
+                <Select
+                  value={selectItem.props.onClick}
+                  onChange={(e) => selectItem.props.onClick = e}
+                >
+                  {selectItem.props.functions.map(item => {
+                    return <Option value={item}>{item}</Option>
+                  })}
+                </Select>
               </div>
             }
           </>
