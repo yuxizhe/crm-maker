@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Input, Switch } from 'antd';
+import { Input, Switch, Icon, Button } from 'antd';
 
 @inject('DSL')
 @observer
@@ -42,6 +42,26 @@ class ConfigItem extends React.Component {
               <div className="config-item-line">
                 <span>默认值：</span>
                 <Input value={selectItem.props.defaultValue} onChange={(e) => selectItem.props.defaultValue = e.target.value}></Input>
+              </div>
+            }
+            {itemProps.indexOf('dataSource') >= 0 &&
+              <div className="config-item-line">
+                <span>选项：</span>
+                <Button
+                  size='small'
+                  onClick={() => selectItem.props.dataSource.push({ label: 'label', value: 'value' })}
+                >新增</Button>
+                {selectItem.props.dataSource.map((item, index) => {
+                  return <div className="options">
+                    <Input value={item.label} onChange={(e) => item.label = e.target.value}></Input>
+                    <Input value={item.value} onChange={(e) => item.value = e.target.value}></Input>
+                    <Icon
+                      className='pointer'
+                      type="close-circle"
+                      onClick={() => selectItem.props.dataSource.splice(index, 1)}
+                    />
+                  </div>
+                })}             
               </div>
             }
           </>

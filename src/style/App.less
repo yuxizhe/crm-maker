@@ -1,5 +1,12 @@
 @import './var.less';
 
+.pointer{
+  cursor: pointer;
+  &:hover{
+    color: @primary-color;
+  }
+}
+
 .header-title{
   font-size: 20px;
   font-weight: 700;
@@ -27,7 +34,15 @@
 }
 
 .config-item-line {
-  margin: 5px;
+  margin: 10px 5px;
+  .options {
+    display: flex;
+    align-items: center;
+    >* {
+      margin: 2px;
+    }
+  }
+
 }
 
 .generate-buttom {
