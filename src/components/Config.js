@@ -26,10 +26,23 @@ class ConfigItem extends React.Component {
                 <Input value={selectItem.props.label} onChange={(e) => selectItem.props.label = e.target.value}></Input>
               </div>
             }
+            {selectItem.componentType.indexOf('Item') >= 0 &&
+              <div className="config-item-line">
+                <span>是否是FormItem：</span>
+                <Switch checked={selectItem.componentType === 'FormItem'} onChange={(e) => selectItem.componentType = e ? "FormItem":"InputItem"} />
+                {/* <Input value={selectItem.props.placeholder} onChange={(e) => selectItem.props.placeholder = e.target.value}></Input> */}
+              </div>
+            }
             {itemProps.indexOf('placeholder') >= 0 &&
               <div className="config-item-line">
                 <span>占位内容：</span>
                 <Input value={selectItem.props.placeholder} onChange={(e) => selectItem.props.placeholder = e.target.value}></Input>
+              </div>
+            }
+            {itemProps.indexOf('extra') >= 0 &&
+              <div className="config-item-line">
+                <span>说明内容：extra</span>
+                <Input value={selectItem.props.extra} onChange={(e) => selectItem.props.extra = e.target.value}></Input>
               </div>
             }
             {itemProps.indexOf('required') >= 0 &&

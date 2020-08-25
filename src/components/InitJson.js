@@ -7,6 +7,7 @@ export const basicComponents = [
     props: {
       label: '输入框',
       dataType: 'string',
+      extra: '',
       width: '100%',
       defaultValue: '',
       required: false,
@@ -24,6 +25,7 @@ export const basicComponents = [
     props: {
       label: '数字输入框',
       dataType: 'string',
+      extra: '',
       width: '100%',
       defaultValue: '',
       required: false,
@@ -41,6 +43,7 @@ export const basicComponents = [
     props: {
       label: '文本框',
       width: '100%',
+      extra: '',
       defaultValue: '',
       required: false,
       disabled: false,
@@ -57,6 +60,7 @@ export const basicComponents = [
       label: '选择框',
       defaultValue: '',
       multiple: false,
+      extra: '',
       disabled: false,
       clearable: false,
       placeholder: '',
@@ -95,6 +99,7 @@ export const basicComponents = [
     props: {
       label: '单选框',
       inline: true,
+      extra: '',
       defaultValue: '',
       showLabel: true,
       dataSource: [
@@ -131,6 +136,7 @@ export const basicComponents = [
     props: {
       label: '多选框',
       inline: true,
+      extra: '',
       defaultValue: [],
       showLabel: true,
       dataSource: [
@@ -167,6 +173,7 @@ export const basicComponents = [
     props: {
       label: '时间选择',
       defaultValue: '21:19:56',
+      extra: '',
       readonly: false,
       disabled: false,
       editable: true,
@@ -188,6 +195,7 @@ export const basicComponents = [
     props: {
       label: '日期选择',
       type: 'date',
+      extra: '',
       defaultValue: '',
       readonly: false,
       disabled: false,
@@ -211,6 +219,7 @@ export const basicComponents = [
       label: '日期范围选择',
       type: 'daterange',
       defaultValue: '',
+      extra: '',
       readonly: false,
       disabled: false,
       editable: true,
@@ -231,6 +240,7 @@ export const basicComponents = [
     icon: 'icon-date',
     props: {
       label: '上传图片',
+      extra: '',
     }
   },
   // {

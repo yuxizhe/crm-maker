@@ -1,6 +1,6 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
-import { Button, Input, InputNumber, Select, TimePicker, DatePicker, Checkbox, Radio, Divider, Descriptions, Table} from 'antd';
+import { Button, Input, InputNumber, Select, TimePicker, DatePicker, Checkbox, Radio, Divider, Descriptions, Table, Form, Upload, Icon} from 'antd';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -8,7 +8,7 @@ const { RangePicker } = DatePicker;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 const DescriptionsItem = Descriptions.Item;
-
+const FormItem = Form.Item;
 @inject('DSL')
 @observer
 class Item extends React.Component {
@@ -29,6 +29,16 @@ class Item extends React.Component {
   }
   render() {
     let element = this.props.element;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
     return (
       <div onClick={this.setSelect} className="editor-item">
         {/* {element.componentText}:  */}
@@ -38,24 +48,32 @@ class Item extends React.Component {
           </Button>
         }
         {element.componentName === 'Input' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <Input
               placeholder={element.props.placeholder}
               value={element.props.defaultValue}
               onChange={(e) => {element.props.defaultValue = e.target.value}}
             />
-          </div>
+          </FormItem>
         }
         {element.componentName === 'InputNumber' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <InputNumber
               placeholder={element.props.placeholder}
               value={element.props.defaultValue}
               onChange={(e) => {element.props.defaultValue = e}}
             />
-          </div>
+          </FormItem>
         }
         {element.componentName === 'DescriptionsItem' &&
           <DescriptionsItem label={element.props.label}>
@@ -66,14 +84,22 @@ class Item extends React.Component {
           <Divider />
         }
         {element.componentName === 'TextArea' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <TextArea placeholder={element.props.placeholder}/>
-          </div>
+          </FormItem>
         }
         {element.componentName === 'Select' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <Select style={{ width: 120 }} placeholder={element.props.placeholder}>
               {element.props.dataSource.map(item => (
                   <Option key={item.value} label={item.label} value={item.value}>
@@ -82,11 +108,15 @@ class Item extends React.Component {
                 ))
               }
             </Select>
-          </div>
+          </FormItem>
         }
         {element.componentName === 'RadioGroup' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <RadioGroup>
               {element.props.dataSource.map(item => (
                   <Radio key={item.value} label={item.label} value={item.value}>
@@ -95,11 +125,15 @@ class Item extends React.Component {
                 ))
               }
             </RadioGroup>
-          </div>
+          </FormItem>
         }
         {element.componentName === 'CheckboxGroup' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <CheckboxGroup>
               {element.props.dataSource.map(item => (
                   <Checkbox key={item.value} label={item.label} value={item.value}>
@@ -108,25 +142,51 @@ class Item extends React.Component {
                 ))
               }
             </CheckboxGroup>
-          </div>
+          </FormItem>
         }
         {element.componentName === 'TimePicker' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <TimePicker />
-          </div>
+          </FormItem>
         }
         {element.componentName === 'DatePicker' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <DatePicker />
-          </div>
+          </FormItem>
         }
         {element.componentName === 'RangePicker' &&
-          <div className="form-item-line">
-            <span className="label">{element.props.label}: </span>
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
             <RangePicker />
-          </div>
+          </FormItem>
+        }
+        {element.componentName === 'Upload' &&
+          <FormItem
+            {...formItemLayout}
+            label={element.props.label}
+            required={element.props.required}
+            extra={element.props.extra}
+          >
+            <Upload>
+              <Button>
+                <Icon type="upload" /> 点击上传图片
+              </Button>
+            </Upload>
+          </FormItem>
         }
         {element.componentName === 'Table' &&
           <Table
