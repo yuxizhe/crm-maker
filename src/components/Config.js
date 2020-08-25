@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Input, Switch, Icon, Button, Select } from 'antd';
+import { Input, Switch, Icon, Button, Select, InputNumber } from 'antd';
 const { Option } = Select;
 
 @inject('DSL')
@@ -26,7 +26,7 @@ class ConfigItem extends React.Component {
                 <Input value={selectItem.props.label} onChange={(e) => selectItem.props.label = e.target.value}></Input>
               </div>
             }
-            {selectItem.componentType.indexOf('Item') >= 0 &&
+            {selectItem.componentType && selectItem.componentType.indexOf('Item') >= 0 &&
               <div className="config-item-line">
                 <span>是否是FormItem：</span>
                 <Switch checked={selectItem.componentType === 'FormItem'} onChange={(e) => selectItem.componentType = e ? "FormItem":"InputItem"} />
@@ -73,6 +73,26 @@ class ConfigItem extends React.Component {
                       className='pointer'
                       type="close-circle"
                       onClick={() => selectItem.props.dataSource.splice(index, 1)}
+                    />
+                  </div>
+                })}
+              </div>
+            }
+            {selectItem.componentName === 'Row' &&
+              <div className="config-item-line">
+                <span>分栏Col：</span>
+                <Button
+                  size='small'
+                  onClick={() => selectItem.children.push(JSON.parse(JSON.stringify(selectItem.props.props)))}
+                >新增</Button>
+                {selectItem.children.map((item, index) => {
+                  return <div className="options">
+                    <span> Col宽度: </span>
+                    <InputNumber value={item.props.span} onChange={(e) => item.props.span = e}></InputNumber>
+                    <Icon
+                      className='pointer'
+                      type="close-circle"
+                      onClick={() => selectItem.children.splice(index, 1)}
                     />
                   </div>
                 })}

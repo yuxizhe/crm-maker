@@ -276,6 +276,14 @@ export const layoutComponents = [
       children: []
     }],
     props: {
+      props: {
+        componentName: "Col",
+        props: {
+          span: 12,
+          key: 2,
+        },
+        children: []
+      }
     },
   },
   {

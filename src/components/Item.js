@@ -14,9 +14,6 @@ const FormItem = Form.Item;
 class Item extends React.Component {
   DSL = this.props.DSL
 
-  setSelect = () => {
-    this.DSL.selectItem = this.props.element;
-  }
   generateTableDefaultValue = () => {
     const lineValue = {};
     let defaultValue = [];
@@ -40,7 +37,7 @@ class Item extends React.Component {
       },
     };
     return (
-      <div onClick={this.setSelect} className="editor-item">
+      <div className="editor-item">
         {/* {element.componentText}:  */}
         {element.componentName === 'Button' &&
           <Button>

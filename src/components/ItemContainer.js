@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Button } from 'antd';
+import { Row, Col } from 'antd';
 import Item from './Item';
 import { observer, inject } from 'mobx-react';
 import { ReactSortable } from "../lib/react-sortablejs/index.ts";
@@ -18,13 +18,28 @@ class ItemContainer extends React.Component {
     }
   }
 
+  setSelect = () => {
+    this.DSL.selectItem = this.props.element;
+  }
+
   render() {
     let element = this.props.element;
     return (
-      <div className={`item-container ${this.checkSelect(element)}`}>
-        {element.componentName.match(/^(Modal|Card|Descriptions)$/) ?
+      <div className={`item-container ${this.checkSelect(element)}`} onClick={this.setSelect}>
+        {element.componentName === 'Row' && 
+          <Row>
+            {element.children.map(item => {
+              return (
+                <Col span={item.props.span}>
+                  <ItemContainer key={item.props.key} element={item} DSL={this.DSL}/>
+                </Col>
+              )
+            })}
+          </Row>
+        }
+        {element.componentName.match(/^(Modal|Card|Descriptions|Col)$/) &&
           <div>
-            {element.componentText}: 
+            {element.componentName.match(/^(Modal|Card|Descriptions)$/) ? `${element.componentText}: ` : '' }
             <ReactSortable
               list={element.children}
               setList={(newList, func, dragStore) => {
@@ -48,9 +63,10 @@ class ItemContainer extends React.Component {
                 })}
             </ReactSortable>
           </div>
-          : <Item key={element.props.key} element={element} />
         }
-
+        {!element.componentName.match(/^(Modal|Card|Descriptions|Col|Row)$/) &&
+          <Item key={element.props.key} element={element} />
+        }
       </div>
     )
   }
