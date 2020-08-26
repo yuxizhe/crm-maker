@@ -1,6 +1,7 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import { Button, Input, InputNumber, Select, TimePicker, DatePicker, Checkbox, Radio, Divider, Descriptions, Table, Form, Upload, Icon} from 'antd';
+import { randomID } from '../util';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -15,11 +16,14 @@ class Item extends React.Component {
   DSL = this.props.DSL
 
   generateTableDefaultValue = () => {
-    const lineValue = {};
-    let defaultValue = [];
-    this.props.element.props.dataSource.map(item => lineValue[item.value] = item.default)
-    for(let i = 0; i < 3; i++) {
-      defaultValue.push(lineValue)
+    const defaultValue = [];
+    for (let i = 0; i < 3; i++) {
+      const lineValue = {};
+      this.props.element.props.dataSource.forEach((item) => {
+        lineValue[item.value] = item.default
+      });
+      lineValue.rowKey = randomID();
+      defaultValue.push(lineValue);
     }
     // this.props.element.props.defaultValue = defaultValue;
     return defaultValue;
@@ -188,6 +192,7 @@ class Item extends React.Component {
         {element.componentName === 'Table' &&
           <Table
             dataSource={this.generateTableDefaultValue()}
+            rowKey="rowKey"
           >
             {
               element.props.dataSource.map(item => 
