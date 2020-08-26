@@ -18,7 +18,10 @@ export const addItem = (evt, func, dragStore, editList, DSL) => {
   
   editList[newIndex] = component
 
+  // 状态保存在store
   DSL.selectItem = editList[newIndex]
+  DSL.selectItemIndex = newIndex
+  DSL.selectItemParent = editList
   // console.log(JSON.parse(JSON.stringify(editList)))
 }
 

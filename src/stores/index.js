@@ -16,6 +16,10 @@ class Store {
 
   @observable selectItem = {}
 
+  @observable selectItemParent = {}
+
+  @observable selectItemIndex = ''
+
   @action
   initSchema() {
     this.schema = {

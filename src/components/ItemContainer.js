@@ -10,7 +10,6 @@ import { addItem } from '../util/index';
 class ItemContainer extends React.Component {
   DSL = this.props.DSL;
   element = this.props.element;
-  
 
   checkSelect = (element) => {
     if(element.props && this.DSL.selectItem.props && element.props.key === this.DSL.selectItem.props.key) {
@@ -20,6 +19,8 @@ class ItemContainer extends React.Component {
 
   setSelect = () => {
     this.DSL.selectItem = this.props.element;
+    this.DSL.selectItemParent = this.props.parent;
+    this.DSL.selectItemIndex = this.props.index;
   }
 
   render() {

@@ -6,14 +6,30 @@ const { Option } = Select;
 @inject('DSL')
 @observer
 class ConfigItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.DSL = this.props.DSL;
+  }
+
+  deleteItem = () => {
+    if (this.DSL.selectItemParent) {
+      this.DSL.selectItemParent.splice(this.DSL.selectItemIndex, 1)
+      this.DSL.selectItem = {}
+    }
+  }
+
   render() {
-    let selectItem = this.props.DSL.selectItem;
+    let selectItem = this.DSL.selectItem;
     const itemProps = (selectItem && selectItem.props) ? Object.keys(selectItem.props) : ''
     return (
       <div>
         {
           itemProps &&
           <>
+            <div className="config-item-line">
+              <span> 操作：</span>
+              <Button size='small' onClick={this.deleteItem}>删除</Button>
+            </div>
             {itemProps.indexOf('name') >= 0 &&
               <div className="config-item-line">
                 <span> mobx变量名：</span>

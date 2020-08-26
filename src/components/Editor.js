@@ -26,9 +26,9 @@ class Editor extends React.Component {
           // onMove={(moveEvt, evt, func, dragStore) => moveItem(moveEvt, evt, func, dragStore, list)}
           style={{minHeight: '90vh'}}
         >
-            {list.map(item => {
+            {list.map((item, index) => {
               return (
-                <ItemContainer key={item.props.key} element={item}/>
+                <ItemContainer key={item.props.key} element={item} parent={list} index={index}/>
               )
             })}
         </ReactSortable>
