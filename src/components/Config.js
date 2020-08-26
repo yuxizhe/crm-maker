@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Input, Switch, Icon, Button, Select, InputNumber } from 'antd';
+import { randomID } from '../util';
 const { Option } = Select;
 
 @inject('DSL')
@@ -82,7 +83,7 @@ class ConfigItem extends React.Component {
                   onClick={() => selectItem.props.dataSource.push(JSON.parse(JSON.stringify(selectItem.props.props)))}
                 >新增</Button>
                 {selectItem.props.dataSource.map((item, index) => {
-                  return <div className="options">
+                  return <div className="options" key={randomID()}>
                     <Input value={item.label} onChange={(e) => item.label = e.target.value}></Input>
                     <Input value={item.value} onChange={(e) => item.value = e.target.value}></Input>
                     <Icon
