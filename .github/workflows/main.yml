@@ -38,4 +38,6 @@ jobs:
           access-key-id: ${{ secrets.OSS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
       - name: cp files to aliyun
-        run: ossutil cp -rf build oss://hub-dappwind/crm-maker/
+        run: |
+          ossutil rm -rf oss://hub-dappwind/crm-maker/*
+          ossutil cp -rf build oss://hub-dappwind/crm-maker/
