@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { Drawer, Tabs } from 'antd';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import { prettierCode } from "../util";
+import formPost from '../util/formPost';
+import getParameters from '../util/schema2paramter';
 import generageCode from '../util/DSL';
 import enrichSchema from '../util/schemaEnrich';
 
@@ -25,6 +27,7 @@ class Generage extends React.Component {
       drawerShow: false,
     }
   }
+
   importSchema = () => {
     this.setState({
       schema: prettierCode(JSON.stringify(this.DSL.schema), 'json'),
@@ -51,6 +54,12 @@ class Generage extends React.Component {
     })
   }
 
+  openSandBox = () => {
+    const url = 'https://codesandbox.io/api/v1/sandboxes/define';
+    const parameters = getParameters(this.DSL.schema);
+    formPost(url, { parameters });
+  }
+
   clear = () => {
     this.DSL.initSchema()
   }
@@ -58,10 +67,11 @@ class Generage extends React.Component {
   render() {
     return (
       <>
-        <span className="generate-buttom" onClick={this.clear}>清空</span>
-        <span className="generate-buttom" onClick={this.importSchema}>导入schema</span>
-        <span className="generate-buttom" onClick={this.exportSchema}>导出schema</span>
-        <span className="generate-buttom" onClick={this.generageCode}>生成代码</span>
+        <span className="generate-button" onClick={this.clear}>清空</span>
+        <span className="generate-button" onClick={this.importSchema}>导入schema</span>
+        <span className="generate-button" onClick={this.exportSchema}>导出schema</span>
+        <span className="generate-button" onClick={this.generageCode}>生成代码</span>
+        <span className="generate-button" onClick={this.openSandBox}>沙盒预览</span>
         <Drawer
           // title={this.state.title}
           placement="right"
