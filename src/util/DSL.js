@@ -743,7 +743,7 @@ export default function (schema, option = {
   const storejs = `
   import { observable, action } from 'mobx';
 
-  import HttpClient from 'src/utils/httpclient';
+  import HttpClient from '/src/utils/httpclient';
 
   import moment from 'moment';
 
