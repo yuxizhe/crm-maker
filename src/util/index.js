@@ -16,7 +16,7 @@ export const addItem = (evt, func, dragStore, editList, DSL) => {
   component.props.key = key
   component.props.name = component.componentName + '_' + key
   
-  editList[newIndex] = component
+  editList.splice(newIndex, 0, component)
 
   // 状态保存在store
   DSL.selectItem = editList[newIndex]
