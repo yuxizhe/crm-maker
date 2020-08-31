@@ -17,7 +17,9 @@ class ItemContainer extends React.Component {
     }
   }
 
-  setSelect = () => {
+  setSelect = (e) => {
+    // 阻止冒泡
+    e.stopPropagation();
     this.DSL.selectItem = this.props.element;
     this.DSL.selectItemParent = this.props.parent;
     this.DSL.selectItemIndex = this.props.index;
@@ -29,10 +31,10 @@ class ItemContainer extends React.Component {
       <div className={`item-container ${this.checkSelect(element)}`} onClick={this.setSelect}>
         {element.componentName === 'Row' && 
           <Row>
-            {element.children.map(item => {
+            {element.children.map((item, index) => {
               return (
                 <Col span={item.props.span}>
-                  <ItemContainer key={item.props.key} element={item} DSL={this.DSL}/>
+                  <ItemContainer key={item.props.key} element={item} DSL={this.DSL} parent={element.children} index={index}/>
                 </Col>
               )
             })}
@@ -49,17 +51,15 @@ class ItemContainer extends React.Component {
               }}
               group={{ name: "cloning-group-name" }}
               onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children, this.DSL)}
-              // move function 没有找到新旧index
-              // onMove={(moveEvt, evt, func, dragStore) => moveItem(moveEvt, evt, func, dragStore, list)}
               style={{minHeight: '50px'}}
             >
-                {element.children.map(item => {
+                {element.children.map((item, index) => {
                   return (
-                    <div className={`item-container ${this.checkSelect(item)}`}>
-                      <Item key={item.props.key} element={item} />
-                    </div>
+                    // <div className={`item-container ${this.checkSelect(item)}`}>
+                    //   <Item key={item.props.key} element={item} />
+                    // </div>
                     // build 模式 引用自身出错
-                    // <ItemContainer key={item.props.key} element={item} DSL={this.DSL}/>
+                    <ItemContainer key={item.props.key} element={item} DSL={this.DSL} parent={element.children} index={index}/>
                   )
                 })}
             </ReactSortable>

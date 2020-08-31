@@ -22,8 +22,6 @@ class Editor extends React.Component {
           }}
           group={{ name: "cloning-group-name" }}
           onAdd={(evt, func, dragStore) => {addItem(evt, func, dragStore, list, this.DSL)}}
-          // move function 没有找到新旧index
-          // onMove={(moveEvt, evt, func, dragStore) => moveItem(moveEvt, evt, func, dragStore, list)}
           style={{minHeight: '90vh'}}
         >
             {list.map((item, index) => {
