@@ -28,6 +28,22 @@ class Generage extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.getLocalstorage();
+  }
+
+  setLocalstorage = () => {
+    localStorage.setItem('crm-editor-json', JSON.stringify(this.DSL.schema));
+  }
+
+  getLocalstorage = () => {
+    const localJson = localStorage.getItem('crm-editor-json');
+    if (localJson) {
+      const json = JSON.parse(localJson);
+      this.DSL.schema = json;
+    }
+  }
+
   importSchema = () => {
     this.setState({
       schema: prettierCode(JSON.stringify(this.DSL.schema), 'json'),
@@ -41,6 +57,7 @@ class Generage extends React.Component {
       type: 'schema',
       drawerShow: true,
     })
+    this.setLocalstorage();
   }
 
   generageCode = () => {
@@ -52,11 +69,13 @@ class Generage extends React.Component {
       type: 'code',
       drawerShow: true,
     })
+    this.setLocalstorage();
   }
 
   openSandBox = () => {
     const url = 'https://codesandbox.io/api/v1/sandboxes/define';
     const parameters = getParameters(this.DSL.schema);
+    this.setLocalstorage();
     formPost(url, { parameters });
   }
 
