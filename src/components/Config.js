@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Input, Switch, Icon, Button, Select, InputNumber } from 'antd';
 import { randomID } from '../util';
+import { basicComponents } from './InitJson';
 const { Option } = Select;
 
 @inject('DSL')
@@ -10,6 +11,13 @@ class ConfigItem extends React.Component {
   constructor(props) {
     super(props);
     this.DSL = this.props.DSL;
+    const components = basicComponents;
+    const componentsMap = {};
+    components.map(item => componentsMap[item.componentName] = item)
+    this.state = {
+      components,
+      componentsMap,
+    }
   }
 
   deleteItem = () => {
@@ -17,6 +25,20 @@ class ConfigItem extends React.Component {
       this.DSL.selectItemParent.splice(this.DSL.selectItemIndex, 1)
       this.DSL.selectItem = {}
     }
+  }
+
+  componentNameChange = (e) => {
+    const newItem = this.state.componentsMap[e];
+    const oldItem = this.DSL.selectItem;
+    const oldLabel = oldItem.props.label;
+
+    this.DSL.selectItem.componentName = e;
+    this.DSL.selectItem.componentType = newItem.componentType;
+    this.DSL.selectItem.props = Object.assign(newItem.props, {
+      label: oldLabel,
+      name: oldItem.props.name,
+      key: oldItem.props.key
+    });
   }
 
   render() {
@@ -27,6 +49,20 @@ class ConfigItem extends React.Component {
         {
           itemProps &&
           <>
+            <div className="config-item-line">
+              <span> 组件类型：</span>
+              <Select
+                dropdownMatchSelectWidth={false}
+                showSearch={true}
+                style={{width: '100%'}}
+                value={selectItem.componentName}
+                onChange={this.componentNameChange}
+              >
+                {this.state.components.map(item => {
+                  return <Option value={item.componentName}>{item.componentText}({item.componentName})</Option>
+                })}
+              </Select>
+            </div>
             <div className="config-item-line">
               <span> 操作：</span>
               <Button size='small' onClick={this.deleteItem}>删除</Button>
@@ -120,6 +156,7 @@ class ConfigItem extends React.Component {
                 <span>function：</span>
                 <Select
                   value={selectItem.props.onClick}
+                  style={{width: '100%'}}
                   onChange={(e) => selectItem.props.onClick = e}
                 >
                   {selectItem.props.functions.map(item => {

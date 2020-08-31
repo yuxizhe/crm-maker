@@ -243,6 +243,23 @@ export const basicComponents = [
       extra: '',
     }
   },
+  {
+    componentName: 'Button',
+    componentText: '按钮',
+    props: {
+      label: '按钮',
+      "type": "primary",
+      "onClick": "{{this.onSubmit}}",
+      functions: [
+        "{{this.onSubmit}}",
+        "{{this.onModalAdd}}",
+        "{{this.onSearch}}"
+      ],
+      style:"{{{ marginLeft: '10px' }}}"
+    },
+    children: '确认',
+    icon: 'icon-grid-',
+  },
   // {
   //   componentName: 'text',
   //   componentText: '文本',
@@ -356,23 +373,6 @@ export const layoutComponents = [
       remote: false,
       remoteprops: [],
     }
-  },
-  {
-    componentName: 'Button',
-    componentText: '按钮',
-    props: {
-      label: '按钮',
-      "type": "primary",
-      "onClick": "{{this.onSubmit}}",
-      functions: [
-        "{{this.onSubmit}}",
-        "{{this.onModalAdd}}",
-        "{{this.onSearch}}"
-      ],
-      style:"{{{ marginLeft: '10px' }}}"
-    },
-    children: '确认',
-    icon: 'icon-grid-',
   },
   {
     componentName: 'Divider',

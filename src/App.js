@@ -28,7 +28,6 @@ const App = () => (
             <Editor />
           </Content>
           <Sider collapsible>
-            设置栏
             <ConfigItem />
           </Sider>
         </Layout>
