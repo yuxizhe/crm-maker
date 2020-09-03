@@ -247,7 +247,6 @@ export const basicComponents = [
     componentName: 'Button',
     componentText: '按钮',
     props: {
-      label: '按钮',
       "type": "primary",
       "onClick": "{{this.onSubmit}}",
       functions: [
@@ -257,7 +256,7 @@ export const basicComponents = [
       ],
       style:"{{{ marginLeft: '10px' }}}"
     },
-    children: '确认',
+    children: '按钮',
     icon: 'icon-grid-',
   },
   // {

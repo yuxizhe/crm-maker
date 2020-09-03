@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Input, Switch, Icon, Button, Select, InputNumber } from 'antd';
-import { randomID } from '../util';
+// import { randomID } from '../util';
 import { basicComponents } from './InitJson';
 const { Option } = Select;
 
@@ -24,6 +24,17 @@ class ConfigItem extends React.Component {
     if (this.DSL.selectItemParent) {
       this.DSL.selectItemParent.splice(this.DSL.selectItemIndex, 1)
       this.DSL.selectItem = {}
+    }
+  }
+
+  setRequired = (e) => {
+    this.DSL.selectItem.props.required = e;
+    if (e) {
+      this.DSL.selectItem.rules = [{
+        required: true, message: this.DSL.selectItem.props.label + '必填'
+      }]
+    } else {
+      this.DSL.selectItem.rules = []
     }
   }
 
@@ -79,6 +90,12 @@ class ConfigItem extends React.Component {
                 <Input value={selectItem.props.label} onChange={(e) => selectItem.props.label = e.target.value}></Input>
               </div>
             }
+            {selectItem.children !== undefined && typeof(selectItem.children) === 'string' &&
+              <div className="config-item-line">
+                <span> 显示内容：</span>
+                <Input value={selectItem.children} onChange={(e) => selectItem.children = e.target.value}></Input>
+              </div>
+            }
             {selectItem.componentType && selectItem.componentType.indexOf('Item') >= 0 &&
               <div className="config-item-line">
                 <span>是否是FormItem：</span>
@@ -101,7 +118,7 @@ class ConfigItem extends React.Component {
             {itemProps.indexOf('required') >= 0 &&
               <div className="config-item-line">
                 <span>是否必填：</span>
-                <Switch checked={selectItem.props.required} onChange={(e) => selectItem.props.required = e} />
+                <Switch checked={selectItem.props.required} onChange={this.setRequired} />
                 {/* <Input value={selectItem.props.placeholder} onChange={(e) => selectItem.props.placeholder = e.target.value}></Input> */}
               </div>
             }
@@ -119,7 +136,7 @@ class ConfigItem extends React.Component {
                   onClick={() => selectItem.props.dataSource.push(JSON.parse(JSON.stringify(selectItem.props.props)))}
                 >新增</Button>
                 {selectItem.props.dataSource.map((item, index) => {
-                  return <div className="options" key={randomID()}>
+                  return <div className="options">
                     <Input value={item.label} onChange={(e) => item.label = e.target.value}></Input>
                     <Input value={item.value} onChange={(e) => item.value = e.target.value}></Input>
                     <Icon

@@ -45,7 +45,7 @@ class Item extends React.Component {
         {/* {element.componentText}:  */}
         {element.componentName === 'Button' &&
           <Button>
-            {element.componentText}
+            {element.children}
           </Button>
         }
         {element.componentName === 'Input' &&

@@ -153,6 +153,8 @@ export default function (schema, option = {
             if (!res.error_code) {
               message.success('操作成功！');
               this.getList();
+              this.store.initModal();
+              this.store.modalShow = false;
             }
           }));
       }
@@ -172,7 +174,7 @@ export default function (schema, option = {
 
       mobxFunction.push(`
       @action
-      getList(page) {
+      getList(page = 1) {
         this.tableLoading = true;
         HttpClient.get('/mock/list', {
           page,
@@ -690,8 +692,6 @@ export default function (schema, option = {
           const trimValues = formValues;
           Object.keys(trimValues).map(key => trimValues[key] = typeof trimValues[key] === 'string' ? trimValues[key].trim() : trimValues[key]);
           this.store.setDataList(trimValues);
-          this.store.initModal();
-          this.store.modalShow = false;
         }
       });
     };`
