@@ -1,12 +1,13 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Drawer, Tabs } from 'antd';
+import { Drawer, Tabs, Modal, Upload, Icon, message, Spin, Radio, Button } from 'antd';
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import { prettierCode } from "../util";
+import { prettierCode, forceDownload } from "../util";
 import formPost from '../util/formPost';
 import getParameters from '../util/schema2paramter';
 import generageCode from '../util/DSL';
 import enrichSchema from '../util/schemaEnrich';
+import aiToJson from '../util/AI2JSON';
 
 require('codemirror/mode/javascript/javascript');
 
@@ -25,6 +26,14 @@ class Generage extends React.Component {
       type: 'schema',
       input: '',
       drawerShow: false,
+      modalShow: false,
+      aiLoading: false,
+      aiType: 'modal',
+      fits: [
+        'https://cdn.jsdelivr.net/gh/dappwind/image/20200613170942.png',
+        'https://cdn.jsdelivr.net/gh/dappwind/image/20200613171518.png',
+        'https://cdn.jsdelivr.net/gh/dappwind/image/20200613171605.png',
+        'https://cdn.jsdelivr.net/gh/dappwind/image/20200613171641.png'],
     }
   }
 
@@ -72,6 +81,15 @@ class Generage extends React.Component {
     this.setLocalstorage();
   }
 
+  getAI = (data, aiType) => {
+    try {
+      aiToJson(data, this.DSL.schema, aiType);
+    } catch (error) {
+      console.error(error);
+      message.error('解析失败');
+    }
+  }
+
   openSandBox = () => {
     const url = 'https://codesandbox.io/api/v1/sandboxes/define';
     const parameters = getParameters(this.DSL.schema);
@@ -86,6 +104,7 @@ class Generage extends React.Component {
   render() {
     return (
       <>
+        <span className="generate-button" onClick={() => this.setState({modalShow: true})}>智能识别表单图片</span>
         <span className="generate-button" onClick={this.clear}>清空</span>
         <span className="generate-button" onClick={this.importSchema}>导入schema</span>
         <span className="generate-button" onClick={this.exportSchema}>导出schema</span>
@@ -154,6 +173,54 @@ class Generage extends React.Component {
             </>
           }
         </Drawer>
+        <Modal
+          visible={this.state.modalShow}
+          footer={null}
+          onCancel={() => this.setState({modalShow: false})}
+        >
+          <div style={{marginBottom: '10px'}}>
+            <span>类型 : </span>
+            <Radio.Group
+              onChange={(e) => this.setState({aiType: e.target.value})}
+              value={this.state.aiType}
+            >
+              <Radio label={'生成Modal弹窗'} value={'modal'}>
+                生成Modal弹窗
+              </Radio>
+              <Radio label={'生成页面表单'} value={'form'}>
+                生成页面表单
+              </Radio>
+            </Radio.Group>
+          </div>
+          <Spin spinning={this.state.aiLoading} tip="识别中...">
+            <Upload.Dragger
+              name='file'
+              multiple={false}
+              action="https://api.dappwind.com/ai/generate/form"
+              onChange={(info) => {
+                const { status, response } = info.file;
+                if (status === 'uploading') {
+                  this.setState({aiLoading: true})
+                }
+                if (status === 'done') {
+                  message.success('图片解析成功')
+                  this.setState({aiLoading: false, modalShow: false})
+                  this.getAI(response.data, this.state.aiType)
+                } else if (status === 'error') {
+                  message.error(`${info.file.name} 图片解析失败`);
+                }
+              }}
+            >
+              <p className="ant-upload-drag-icon">
+                <Icon type="inbox" />
+              </p>
+              <p>请选择或拖拽上传待识别的图片</p>
+            </Upload.Dragger>
+          </Spin>
+          <div style={{marginTop: '10px'}}>
+            <Button onClick={() => forceDownload(this.state.fits[0])}>下载示例图片</Button>
+          </div>
+        </Modal>
       </>
     )
   }

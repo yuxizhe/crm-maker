@@ -20,25 +20,24 @@ export default function (ai, oldJson, aiType) {
       "rules": []
     }
   }
-  const sorted = JSON.parse(ai).sort((a, b) => a[0][0][1] - b[0][0][1])
-  sorted.map(item => {
+  ai.map(item => {
     const random = randomID();
     let child = 
     {
-      "componentName": item[3],
+      "componentName": item.predict,
       "componentType": "FormItem",
       "props": {
-        "label": item[2],
+        "label": item.before_text,
         "defaultValue": '',
         "required": false,
-        "placeholder": item[1],
+        "placeholder": item.inner_text,
         "showLabel": true,
         "key": random,
-        "name": `${item[3]}_${random}`
+        "name": `${item.predict}_${random}`
       },
       "rules": []
     }
-    if (item[3] === 'Select') {
+    if (item.predict === 'Select') {
       child.props['dataSource'] = [
         {
           value: 'value1',
@@ -55,6 +54,7 @@ export default function (ai, oldJson, aiType) {
       ]
     }
     json.children.push(child)
+    return ''
   })
   if (aiType === 'modal') {
     jsonReturn.children.push(json)
