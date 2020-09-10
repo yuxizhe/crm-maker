@@ -11,7 +11,7 @@ export default function Code2Params (schema) {
         content: DSLcode.panelDisplay[0].panelValue,
       },
       'maker/store.js': {
-        content: DSLcode.panelDisplay[1].panelValue,
+        content: DSLcode.panelDisplay[1].panelValue.replace("src/utils/httpclient", "/src/utils/httpclient"),
       },
       'src/utils/httpclient.js': {
         content: `export default {
@@ -20,7 +20,10 @@ export default function Code2Params (schema) {
               setTimeout(
                 () =>
                   resolve({
-                    data: "",
+                    data: {
+                      item: [],
+                      total_items: 100  
+                    },
                     error_description: null,
                     error_code: 0,
                     success: true
@@ -34,7 +37,10 @@ export default function Code2Params (schema) {
               setTimeout(
                 () =>
                   resolve({
-                    data: "",
+                    data: {
+                      item: [],
+                      total_items: 100  
+                    },
                     error_description: null,
                     error_code: 0,
                     success: true

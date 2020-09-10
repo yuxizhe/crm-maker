@@ -43,7 +43,7 @@ function processItem(item) {
           ...item,
           props: {
             // name: item.props.name,
-            style: "{{{maxWidth: '100px'}}}",
+            style: "{{{maxWidth: '150px'}}}",
             dataSource: item.props.dataSource,
             placeholder: item.props.placeholder
           }

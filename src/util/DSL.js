@@ -185,7 +185,7 @@ export default function (schema, option = {
             if (!error_code) {
               this.dataList = data.items;
               this.tablePagination.current = data.current_page;
-              this.tablePagination.total = data.total_pages;
+              this.tablePagination.total = data.total_items;
             }
           }),
         );
@@ -743,7 +743,7 @@ export default function (schema, option = {
   const storejs = `
   import { observable, action } from 'mobx';
 
-  import HttpClient from '/src/utils/httpclient';
+  import HttpClient from 'src/utils/httpclient';
 
   import moment from 'moment';
 
