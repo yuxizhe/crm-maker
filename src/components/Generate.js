@@ -5,7 +5,8 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 import { prettierCode, forceDownload } from "../util";
 import formPost from '../util/formPost';
 import getParameters from '../util/schema2paramter';
-import generageCode from '../util/DSL';
+import generateCode from '../util/DSL';
+import generateVueCode from '../util/DSL.vue';
 import enrichSchema from '../util/schemaEnrich';
 import aiToJson from '../util/AI2JSON';
 
@@ -29,6 +30,7 @@ class Generage extends React.Component {
       modalShow: false,
       aiLoading: false,
       aiType: 'modal',
+      codeType: 'react',
       fits: [
         'https://cdn.jsdelivr.net/gh/dappwind/image/20200613170942.png',
         'https://cdn.jsdelivr.net/gh/dappwind/image/20200613171518.png',
@@ -69,9 +71,12 @@ class Generage extends React.Component {
     this.setLocalstorage();
   }
 
-  generageCode = () => {
+  generateCode = (type = 'react') => {
     const enriched = enrichSchema(this.DSL.schema);
-    const DSLcode = generageCode(enriched);
+    let DSLcode = generateCode(enriched);
+    if (type === 'vue') {
+      DSLcode = generateVueCode(enriched);
+    }
     this.setState({
       code: DSLcode.panelDisplay[0].panelValue,
       store: DSLcode.panelDisplay[1].panelValue,
@@ -108,7 +113,7 @@ class Generage extends React.Component {
         <span className="generate-button" onClick={this.clear}>清空</span>
         <span className="generate-button" onClick={this.importSchema}>导入schema</span>
         <span className="generate-button" onClick={this.exportSchema}>导出schema</span>
-        <span className="generate-button" onClick={this.generageCode}>生成代码</span>
+        <span className="generate-button" onClick={this.generateCode}>生成代码</span>
         <span className="generate-button" onClick={this.openSandBox}>沙盒预览</span>
         <Drawer
           // title={this.state.title}
@@ -129,26 +134,45 @@ class Generage extends React.Component {
             />
           }
           {this.state.type === 'code' &&
-            <Tabs>
-              <TabPane tab="index.js" key="1">
-                <CodeMirror
-                  value={this.state.code}
-                  options={{
-                    lineNumbers: true,
-                    theme: 'material',
+            <>
+              <div style={{marginBottom: '10px'}}>
+                <span>代码框架 : </span>
+                <Radio.Group
+                  onChange={(e) => {
+                    this.setState({codeType: e.target.value});
+                    this.generateCode(e.target.value);
                   }}
-                />
-              </TabPane>
-              <TabPane tab="store.js" key="2">
-                <CodeMirror
-                  value={this.state.store}
-                  options={{
-                    lineNumbers: true,
-                    theme: 'material',
-                  }}
-                />
-              </TabPane>
-            </Tabs>
+                  value={this.state.codeType}
+                >
+                  <Radio label={'生成Modal弹窗'} value={'react'}>
+                    生成 React + Antd
+                  </Radio>
+                  <Radio label={'生成页面表单'} value={'vue'}>
+                    生成 Vue + Element
+                  </Radio>
+                </Radio.Group>
+              </div>
+              <Tabs>
+                <TabPane tab="index.js" key="1">
+                  <CodeMirror
+                    value={this.state.code}
+                    options={{
+                      lineNumbers: true,
+                      theme: 'material',
+                    }}
+                  />
+                </TabPane>
+                <TabPane tab="store.js" key="2">
+                  <CodeMirror
+                    value={this.state.store}
+                    options={{
+                      lineNumbers: true,
+                      theme: 'material',
+                    }}
+                  />
+                </TabPane>
+              </Tabs>
+            </>
           }
           {this.state.type === 'input' &&
             <>
