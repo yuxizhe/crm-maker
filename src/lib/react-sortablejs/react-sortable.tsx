@@ -106,7 +106,9 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const dataid = dataIdAttr || "data-id";
     return Children.map(children as ReactElement<any>[], (child, index) => {
       if (!child) return;
+      if (list.length <= 0) return;
       const item = list[index];
+      if (!item) return;
       const {
         className: prevClassName,
       } = child.props;

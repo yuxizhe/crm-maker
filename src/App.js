@@ -21,13 +21,13 @@ const App = () => (
           <Generage />
         </Header>
         <Layout>
-          <Sider collapsible width={200}>
+          <Sider width={230}>
             <Drawer />
           </Sider>
           <Content>
             <Editor />
           </Content>
-          <Sider collapsible>
+          <Sider>
             <ConfigItem />
           </Sider>
         </Layout>

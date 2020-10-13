@@ -13,7 +13,7 @@ class Editor extends React.Component {
   render() {
     let list = this.DSL.schema.children;
     return (
-      <div>
+      <div className="editor-box">
         <ReactSortable
           list={list}
           setList={(newList, func, dragStore) => {
@@ -24,12 +24,17 @@ class Editor extends React.Component {
           onAdd={(evt, func, dragStore) => {addItem(evt, func, dragStore, list, this.DSL)}}
           style={{minHeight: '90vh'}}
         >
-            {list.map((item, index) => {
+          {
+            list.map((item, index) => {
               return (
                 <ItemContainer key={item.props.key} element={item} parent={list} index={index}/>
               )
-            })}
+            })
+          }
         </ReactSortable>
+        {list && list.length <= 0 &&
+          <div className='empty-text'>从左侧拖拽来添加组件</div>
+        }
       </div>
     )
   }

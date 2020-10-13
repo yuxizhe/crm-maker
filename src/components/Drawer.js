@@ -7,7 +7,7 @@ import { basicComponents, layoutComponents } from './InitJson'
 class Drawer extends React.Component {
   render() {
     return (
-      <div style={{padding: '5px'}}>
+      <div className='drawer-box'>
         输入组件
         <ReactSortable
           list={basicComponents}
@@ -17,7 +17,7 @@ class Drawer extends React.Component {
         >
           {basicComponents.map(item => {
             return (
-              <Button style={{ margin: '2px' }} type="dashed" key={item.componentName}>{item.componentText}</Button>
+              <Button className='item-box' key={item.componentName}>{item.componentText}</Button>
             )
           })}
         </ReactSortable>
@@ -31,7 +31,7 @@ class Drawer extends React.Component {
         >
           {layoutComponents.map(item => {
             return (
-              <Button style={{ margin: '2px' }} type="dashed" key={item.componentName}>{item.componentText}</Button>
+              <Button className='item-box' key={item.componentName}>{item.componentText}</Button>
             )
           })}
         </ReactSortable>
