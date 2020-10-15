@@ -174,7 +174,8 @@ export default function (schema, option = {
 
       mobxFunction.push(`
       @action
-      getList(page = 1) {
+      getList(pageIndex) {
+        const page = pageIndex || this.tablePagination.current || 1;
         this.tableLoading = true;
         HttpClient.get('/mock/list', {
           page,
