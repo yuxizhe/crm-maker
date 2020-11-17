@@ -22,7 +22,8 @@ function processItem(item) {
         ...item,
         props: {
           dataSource: item.props.dataSource,
-          placeholder: item.props.placeholder
+          placeholder: item.props.placeholder,
+          disabled: item.props.disabled,
         }
       }]
     }
@@ -46,7 +47,8 @@ function processItem(item) {
             style: "{{{maxWidth: '150px'}}}",
             allowClear: true,
             dataSource: item.props.dataSource,
-            placeholder: item.props.placeholder
+            placeholder: item.props.placeholder,
+            disabled: item.props.disabled,
           }
         }
       ]

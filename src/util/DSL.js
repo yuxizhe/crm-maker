@@ -398,7 +398,7 @@ export default function (schema, option = {
     //   console.log(schema.props)
     // }
     Object.keys(schema.props || {}).forEach((key) => {
-      if (['className', 'text', 'src', 'dataSource', 'rules', 'defaultValue'].indexOf(key) === -1) {
+      if (['className', 'text', 'src', 'dataSource', 'rules', 'defaultValue', 'disabled'].indexOf(key) === -1) {
         props += ` ${key}={${parseProps(schema.props[key])}}`;
       }
     })
@@ -500,11 +500,15 @@ export default function (schema, option = {
       case 'RadioGroup':
         if (schema.children && schema.children.length) {
           xml = `<${type}${classString}${props} 
+                  ${schema.componentType === 'InputItem' ? `value=this.store.${parentSchema.props.name}` : ''}
+                  ${schema.props.disabled === true ? `disabled={this.store.modalType === 'edit'}` : ''}
                   onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e.target.value} 
                  >
                  ${transform(schema.children)}</${type}>`;
         } else {
           xml = `<${type}${classString}${props} 
+                  ${schema.componentType === 'InputItem' ? `value={this.store.${parentSchema.props.name}}` : ''}
+                  ${schema.props.disabled === true ? `disabled={this.store.modalType === 'edit'}` : ''}
                   onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e.target.value} 
                 />`;
         }
@@ -515,11 +519,15 @@ export default function (schema, option = {
       case 'Slider':
         if (schema.children && schema.children.length) {
           xml = `<${type}${classString}${props} 
+                  ${schema.componentType === 'InputItem' ? `value={this.store.${parentSchema.props.name}}` : ''}
+                  ${schema.props.disabled === true ? `disabled={this.store.modalType === 'edit'}` : ''}
                   onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e}
                  >
                  ${transform(schema.children)}</${type}>`;
         } else {
           xml = `<${type}${classString}${props} 
+                  ${schema.componentType === 'InputItem' ? `value={this.store.${parentSchema.props.name}}` : ''}
+                  ${schema.props.disabled === true ? `disabled={this.store.modalType === 'edit'}` : ''}
                   onChange={e => this.store.${modalStore}${parentSchema ? parentSchema.props.name : 'none'} = e} 
                 />`;
         }

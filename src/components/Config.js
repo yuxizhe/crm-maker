@@ -103,6 +103,12 @@ class ConfigItem extends React.Component {
                 {/* <Input value={selectItem.props.placeholder} onChange={(e) => selectItem.props.placeholder = e.target.value}></Input> */}
               </div>
             }
+            {selectItem.props.disabled !== undefined && selectItem.componentType === 'FormItem' &&
+              <div className="config-item-line">
+                <span>编辑时禁止修改：</span>
+                <Switch checked={selectItem.props.disabled === true} onChange={(e) => selectItem.props.disabled = e ? true:false} />
+              </div>
+            }
             {itemProps.indexOf('placeholder') >= 0 &&
               <div className="config-item-line">
                 <span>占位内容：</span>

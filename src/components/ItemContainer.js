@@ -50,7 +50,7 @@ class ItemContainer extends React.Component {
                 element.children = newList
               }}
               group={{ name: "cloning-group-name" }}
-              onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children, this.DSL)}
+              onAdd={(evt, func, dragStore) => addItem(evt, func, dragStore, element.children, this.DSL, element)}
               style={{minHeight: '50px'}}
             >
                 {element.children.map((item, index) => {

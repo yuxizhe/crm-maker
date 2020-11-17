@@ -70,6 +70,15 @@ class Generage extends React.Component {
     })
     this.setLocalstorage();
   }
+  exportFullJson = () => {
+    const enriched = enrichSchema(this.DSL.schema);
+    this.setState({
+      schema: prettierCode(JSON.stringify(enriched), 'json'),
+      type: 'schema',
+      drawerShow: true,
+    })
+    this.setLocalstorage();
+  }
 
   generateCode = (type = 'react') => {
     const enriched = enrichSchema(this.DSL.schema);
@@ -113,6 +122,7 @@ class Generage extends React.Component {
         <span className="generate-button" onClick={this.clear}>清空</span>
         <span className="generate-button" onClick={this.importSchema}>导入schema</span>
         <span className="generate-button" onClick={this.exportSchema}>导出schema</span>
+        <span className="generate-button" onClick={this.exportFullJson}>导出完整json</span>
         <span className="generate-button" onClick={this.generateCode}>生成代码</span>
         <span className="generate-button" onClick={this.openSandBox}>沙盒预览</span>
         <Drawer

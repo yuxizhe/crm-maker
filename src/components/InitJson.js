@@ -2,7 +2,7 @@ export const basicComponents = [
   {
     componentName: 'Input',
     componentText: '输入框',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-input',
     props: {
       label: '输入框',
@@ -20,7 +20,7 @@ export const basicComponents = [
   {
     componentName: 'InputNumber',
     componentText: '数字输入框',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-input',
     props: {
       label: '数字输入框',
@@ -38,7 +38,7 @@ export const basicComponents = [
   {
     componentName: 'TextArea',
     componentText: '文本框',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-diy-com-textarea',
     props: {
       label: '文本框',
@@ -54,7 +54,7 @@ export const basicComponents = [
   {
     componentName: 'Select',
     componentText: '下拉选择',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-select',
     props: {
       label: '选择框',
@@ -94,7 +94,7 @@ export const basicComponents = [
   {
     componentName: 'RadioGroup',
     componentText: '单选框',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-radio-active',
     props: {
       label: '单选框',
@@ -131,7 +131,7 @@ export const basicComponents = [
   {
     componentName: 'CheckboxGroup',
     componentText: '多选框',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-check-box',
     props: {
       label: '多选框',
@@ -168,7 +168,7 @@ export const basicComponents = [
   {
     componentName: 'TimePicker',
     componentText: '时间选择',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-time',
     props: {
       label: '时间选择',
@@ -190,7 +190,7 @@ export const basicComponents = [
   {
     componentName: 'DatePicker',
     componentText: '日期选择',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-date',
     props: {
       label: '日期选择',
@@ -213,7 +213,7 @@ export const basicComponents = [
   {
     componentName: 'RangePicker',
     componentText: '日期范围选择',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-date',
     props: {
       label: '日期范围选择',
@@ -236,7 +236,7 @@ export const basicComponents = [
   {
     componentName: 'Upload',
     componentText: '上传图片组件',
-    componentType: 'FormItem',
+    componentType: 'InputItem',
     icon: 'icon-date',
     props: {
       label: '上传图片',

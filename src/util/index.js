@@ -5,7 +5,7 @@ export const randomID = () => {
   return Math.ceil(Math.random() * 99999);
 }
 
-export const addItem = (evt, func, dragStore, editList, DSL) => {
+export const addItem = (evt, func, dragStore, editList, DSL, parentItem) => {
   const newIndex = evt.newIndex
   //为拖拽到容器的元素添加唯一 key
   const key = randomID();
@@ -15,6 +15,11 @@ export const addItem = (evt, func, dragStore, editList, DSL) => {
 
   component.props.key = key
   component.props.name = component.componentName + '_' + key
+
+  // 判断是不是formItem
+  if (parentItem && parentItem.componentName && parentItem.componentName === 'Modal') {
+    component.componentType = 'FormItem';
+  }
   
   editList.splice(newIndex, 0, component)
 
