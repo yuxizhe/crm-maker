@@ -32,8 +32,14 @@ export default function (schema, option = {
   // mobx
   const mobxVar = [];
 
+  // searchVar
+  const searchVar = [];
+
   // mobxModal
   const mobxModalVar = [];
+
+  // mobxTimeVar 时间格式的变量
+  const mobxTimeVar = [];
 
   // mobx function
   const mobxFunction = [];
@@ -47,7 +53,10 @@ export default function (schema, option = {
   // 转成string 通过match判断是否需要某些功能
   const schemaString = JSON.stringify(schema);
 
-  // 处理 import 相关
+  /**
+   * 处理 import 相关
+   * @param {*} type 
+   */
   const importComponent = (type) => {
     let result = '';
 
@@ -75,6 +84,10 @@ export default function (schema, option = {
       } else if (type === 'RangePicker') {
         subImports.push('const { RangePicker } = DatePicker')
         antdImport.indexOf('DatePicker') === -1 && antdImport.push('DatePicker');
+      } else if (type === 'Table') {
+        antdImport.push('Button');
+        components.push('Button');
+        antdImport.push(type);
       } else {
         antdImport.push(type);
       }
@@ -82,12 +95,21 @@ export default function (schema, option = {
     }
   };
 
-  // 处理mobx相关
+  /**
+   * 处理mobx相关
+   * @param {*} type 当前类型
+   * @param {*} schema 要处理的schema
+   * @param {*} nameChain 组件类型链  Modal-Input 等
+   */
   const mobxComponent = (type, schema, nameChain) => {
     if (type === 'FormItem' || type === 'DescriptionsItem' || type === 'Div' || type === 'Span') {
       // modal里的变量单独处理
       if (nameChain.match('Modal')) {
         mobxModalVar.push(schema.props.name);
+        // modal里的 时间类型 单独处理，antd修改时
+        if (schema.children && schema.children[0] && (schema.children[0].componentName.match(/^(DatePicker|TimePicker|RangePicker)/))) {
+          mobxTimeVar.push(schema.props.name);
+        }
         return;
       }
       if (schema.props.defaultValue) { // defaultValue处理
@@ -107,6 +129,9 @@ export default function (schema, option = {
       } else {
         mobxVar.push(`@observable ${schema.props.name} =""`)
       }
+      // 搜索的 var 
+      searchVar.push(schema.props.name);
+
     } else if (type === 'Modal') {
     // 处理modal相关逻辑
       mobxVar.push(`@observable modalShow = true`)
@@ -132,7 +157,9 @@ export default function (schema, option = {
         this.initModal();
         const record = this.dataList[index];
         this.modalData = Object.assign(this.modalData, record);
-
+        ${mobxTimeVar.map(item => {
+          return `this.modalData.${item} = moment(record.${item})`
+        })}
         this.modalType = 'edit';
         this.editItemIndex = index;
       }
@@ -179,6 +206,9 @@ export default function (schema, option = {
         this.tableLoading = true;
         HttpClient.get('/mock/list', {
           page,
+          ${searchVar.map(item => {
+              return `${item}: this.${item}`
+          })}
         }).then(
           action((res) => {
             const { data, error_code } = res;
@@ -370,7 +400,12 @@ export default function (schema, option = {
     })`;
   }
 
-  // 组件引入&变量引入
+  /**
+   * 组件引入&变量引入
+   * @param {*} type 当前类型
+   * @param {*} schema 要处理的schema
+   * @param {*} nameChain 组件类型链  Modal-Input 等
+   */
   const parseComponentAndMobx = (type, schema, nameChain) => {
     // antd import处理
     importComponent(type);
@@ -379,7 +414,12 @@ export default function (schema, option = {
     mobxComponent(type, schema, nameChain)
   }
 
-  // generate render xml
+  /**
+   * generateRender
+   * @param {*} schema 当前要处理的schema
+   * @param {*} parentSchema 父schema
+   * @param {*} nameChain 组件类型链  Modal-Input 等
+   */
   const generateRender = (schema, parentSchema, nameChain) => {
     let type = schema.componentName;
     const className = schema.props && schema.props.className;
@@ -576,7 +616,13 @@ export default function (schema, option = {
       return code
     }
   }
-  // parse schema
+
+  /**
+   * parse schema
+   * @param {*} schema 当前要处理的schema
+   * @param {*} parentSchema 父schema
+   * @param {*} nameChain 组件类型链  Modal-Input 等
+   */
   const transform = (schema, parentSchema, nameChain) => {
     let result = '';
 
@@ -708,7 +754,7 @@ export default function (schema, option = {
 
   if(schemaString.match('onSearch')) {
     schema.methods['onSearch'] = `function () {
-      this.store.getList();
+      this.store.getList(1);
     };`
   }
 
@@ -753,6 +799,8 @@ export default function (schema, option = {
   import { observable, action } from 'mobx';
 
   import HttpClient from 'src/utils/httpclient';
+
+  import { message } from 'antd';
 
   import moment from 'moment';
 

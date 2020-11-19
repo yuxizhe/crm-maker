@@ -70,7 +70,7 @@ class ConfigItem extends React.Component {
                 onChange={this.componentNameChange}
               >
                 {this.state.components.map(item => {
-                  return <Option value={item.componentName}>{item.componentText}({item.componentName})</Option>
+                  return <Option key={item.value} value={item.componentName}>{item.componentText}({item.componentName})</Option>
                 })}
               </Select>
             </div>
