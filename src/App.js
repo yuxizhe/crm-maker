@@ -7,7 +7,7 @@ import './style/App.less';
 
 import Drawer from './components/Drawer';
 import Editor from './components/Editor';
-import ConfigItem from './components/Config';
+import ConfigItem from './components/Config/index';
 import Generage from './components/Generate';
 
 const { Header, Content, Sider } = Layout;

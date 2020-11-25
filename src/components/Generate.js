@@ -51,6 +51,12 @@ class Generage extends React.Component {
     const localJson = localStorage.getItem('crm-editor-json');
     if (localJson) {
       const json = JSON.parse(localJson);
+      if(!json.dataKeysNames) {
+        json.dataKeysNames = {
+          keys: [],
+          names: [],
+        }
+      }
       this.DSL.schema = json;
     }
   }

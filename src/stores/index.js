@@ -1,31 +1,45 @@
 /**
  * 全局Store
  */
-import { observable, action } from 'mobx';
+import { observable, action, autorun } from 'mobx';
 class Store {
   // 调试用
-  // constructor() {
-  //   autorun(() => console.log(JSON.parse(JSON.stringify(this.schema))));
-  // }
+  constructor() {
+    autorun(() => console.log(JSON.parse(JSON.stringify(this.schema))));
+  }
 
   @observable.deep schema = {
     "componentName": "Page",
     "props": {},
-    "children": []
+    "children": [],
+    "dataKeysNames": {
+      keys: [],
+      names: [],
+    }
   }
 
   @observable selectItem = {}
 
   @observable selectItemParent = {}
 
-  @observable selectItemIndex = ''
+  @observable selectItemIndex = '';
+
+  // @observable.deep dataKeys = [];
+
+  // @observable.deep dataNames = [];
+
+  @observable pasteDate = '';
 
   @action
   initSchema() {
     this.schema = {
       "componentName": "Page",
       "props": {},
-      "children": []
+      "children": [],
+      "dataKeysNames": {
+        keys: [],
+        names: [],
+      }
     }
     this.selectItem = {}
   }

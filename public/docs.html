@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>查看源</title>
+  <link rel="canonical" href="/pages/viewpage.action?pageId=$action.page.id" />
+</head>
+
+<body class="mceContentBody aui-theme-default wiki-content fullsize">
+  <p>&nbsp;</p>
+  <h2>功能</h2>
+  <hr />
+  <p>获取精选产品列表信息</p>
+  <h2>URL</h2>
+  <hr />
+  <p><span style="color: rgb(80,80,80);"><a
+        href="https://api.xueqiu.com/private_fund/v3/max_drawdown/query.json">https://api.xueqiu.com/private_fund/v4/index/bzb/list.json</a><br /></span>
+  </p>
+  <h2>支持格式</h2>
+  <hr />
+  <p>json</p>
+  <h2>HTTP请求方式</h2>
+  <hr />
+  <p>GET</p>
+  <h2><strong>是否需要身份验证</strong></h2>
+  <hr />
+  <p>是</p>
+  <h2><strong>请求参数</strong></h2>
+  <hr />
+  <table class="wrapped confluenceTable">
+    <colgroup>
+      <col />
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <td colspan="1" class="confluenceTd">参数名称</td>
+        <td colspan="1" class="confluenceTd">参数类型</td>
+        <td colspan="1" class="confluenceTd">是否必填</td>
+        <td colspan="1" class="confluenceTd">说明</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">risk_match</td>
+        <td colspan="1" class="confluenceTd">boolean</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是否风险匹配，false：展示全部，true：展示风险匹配产品，默认true</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">industry</td>
+        <td colspan="1" class="confluenceTd">Integer</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">所属行业 1、医药 2、消费 3、互联网
+            4、大金融</span>，不传返回全部，</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><strong><br />注意事项</strong></p>
+  <hr />
+  <p>无</p>
+  <h2><strong>返回结果</strong></h2>
+  <hr />
+  <p>给出返回结果示例：</p>
+  <table class="wysiwyg-macro" data-macro-name="code" data-macro-id="260a5684-55c1-4713-940f-9bc7fd8dddc3"
+    data-macro-schema-version="1"
+    style="background-image: url(/plugins/servlet/confluence/placeholder/macro-heading?definition=e2NvZGV9&amp;locale=zh_CN&amp;version=2); background-repeat: no-repeat;"
+    data-macro-body-type="PLAIN_TEXT">
+    <tr>
+      <td class="wysiwyg-macro-body">
+        <pre>{
+    "data": [{
+        "symbol": "P000410",
+        "name": "建平远航",
+        "manager_nick_name": "黄建平",
+        "follows_num": 348972,
+        "avater_address": "https://xueqiu.com",
+        "rate": "10.01%",
+        "purchase_amount": "100万",
+        "risk_name": "中高风险",
+        "strut_type": "股票策略",        
+        "corner_mark": "连续3年金牛奖",
+        "selected_reason": "回撤控制好",
+        "investment_strategy": "1、识别具有良好发展前景的行业，并自下而上挖掘景气产业内的优质公司，构建上市公司投资组合；2、结合资本市场政策与制度、投资者结构以及市场估值等市场要素的变化，预判市场风格与主题投资机会，进行仓位控制和行业配置动态优化；3、同时将配合其他投资工具共同实现基金财产的投资收益最大化。",
+        "industry": 1
+    },
+    {
+        "symbol": "P000660",
+        "name": "希瓦小牛1号",
+        "manager_nick_name": "梁宏",
+        "follows_num": 283791,
+        "avater_address": "https://xueqiu.com",
+        "rate": "14.26%",
+        "purchase_amount": "100万",
+        "risk_name": "中高风险",
+        "strut_type": "股票策略",        
+        "corner_mark": "连续3年金牛奖",
+        "selected_reason": "回撤控制好",
+        "investment_strategy": "1、识别具有良好发展前景的行业，并自下而上挖掘景气产业内的优质公司，构建上市公司投资组合；2、结合资本市场政策与制度、投资者结构以及市场估值等市场要素的变化，预判市场风格与主题投资机会，进行仓位控制和行业配置动态优化；3、同时将配合其他投资工具共同实现基金财产的投资收益最大化。",
+        "industry": 1
+    }],
+    "success": true
+}</pre>
+      </td>
+    </tr>
+  </table>
+  <p><br /></p>
+  <h2><strong>返回字段说明</strong></h2>
+  <hr />
+  <p><br /></p>
+  <table class="relative-table wrapped confluenceTable" style="width: 1770.0px;">
+    <thead>
+      <tr>
+        <th class="confluenceTh">
+          <p>参数名称</p>
+        </th>
+        <th class="confluenceTh">
+          <p>类型</p>
+        </th>
+        <th class="confluenceTh">
+          <p>含义</p>
+        </th>
+        <th colspan="1" class="confluenceTh">
+          <p>是否一定存在</p>
+        </th>
+        <th colspan="1" class="confluenceTh">是否可能为null</th>
+        <th colspan="1" class="confluenceTh">是否可能为空串</th>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">
+          <pre>symbol</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">
+          <pre>产品代码</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">否</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">
+          <pre>name</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">
+          <pre>产品名称</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">否</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">
+          <pre>manager_nick_name</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">
+          <pre>基金经理雪球账号名称</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">
+          <pre>follows_num</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">int</td>
+        <td colspan="1" class="confluenceTd">粉丝数</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">avater_address</td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">头像地址</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">
+          <pre>rate</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">成立以来年化</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">
+          <pre>purchase_amount</pre>
+        </td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">起购金额</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">risk_name</td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">风险名称</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">否</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">corner_mark</td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">角标</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">strut_type</td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">投资策略</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">selected_reason</td>
+        <td colspan="1" class="confluenceTd">string</td>
+        <td colspan="1" class="confluenceTd">入围理由</td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+      <tr>
+        <td colspan="1" class="confluenceTd">industry</td>
+        <td colspan="1" class="confluenceTd">int</td>
+        <td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">所属行业 1、医药 2、消费 3、互联网 4、大金融</span></td>
+        <td colspan="1" class="confluenceTd">否</td>
+        <td colspan="1" class="confluenceTd">是</td>
+        <td colspan="1" class="confluenceTd">是</td>
+      </tr>
+    </thead>
+  </table>
+  <p class="auto-cursor-target"><br /></p>
+  <p>&nbsp;</p>
+</body>
+
+</html>

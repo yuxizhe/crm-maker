@@ -25,7 +25,7 @@ class Item extends React.Component {
       lineValue.rowKey = randomID();
       defaultValue.push(lineValue);
     }
-    this.props.element.props.defaultValue = defaultValue;
+    // this.props.element.props.defaultValue = defaultValue;
     return defaultValue;
   }
   render() {
