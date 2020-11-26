@@ -14,7 +14,9 @@ export const addItem = (evt, func, dragStore, editList, DSL, parentItem) => {
   const component = JSON.parse(JSON.stringify(list[evt.oldIndex]))
 
   component.props.key = key
-  component.props.name = component.componentName + '_' + key
+  if (!component.componentName.match(/Button|Row|Col|Modal|Card|Table|Divider|Descriptions|DescriptionsItem/)) {
+    component.props.name = component.componentName + '_' + key;
+  }
 
   // 判断是不是formItem
   if (parentItem && parentItem.componentName && parentItem.componentName === 'Modal') {

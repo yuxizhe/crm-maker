@@ -85,8 +85,10 @@ export default function (schema, option = {
         subImports.push('const { RangePicker } = DatePicker')
         antdImport.indexOf('DatePicker') === -1 && antdImport.push('DatePicker');
       } else if (type === 'Table') {
-        antdImport.push('Button');
-        components.push('Button');
+        if (!components.includes('Button')) {
+          antdImport.push('Button');
+          components.push('Button');
+        }
         antdImport.push(type);
       } else {
         antdImport.push(type);
