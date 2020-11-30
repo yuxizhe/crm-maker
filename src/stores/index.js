@@ -24,6 +24,14 @@ class Store {
 
   @observable selectItemIndex = '';
 
+  @observable mpaas = {
+    id: '',
+    comment: '',
+    name: '',
+    content: '',
+    url: '',
+  };
+
   // @observable.deep dataKeys = [];
 
   // @observable.deep dataNames = [];
@@ -42,6 +50,13 @@ class Store {
       }
     }
     this.selectItem = {}
+    this.mpaas = {
+      id: '',
+      comment: '',
+      name: '',
+      content: '',
+      url: '',
+    }
   }
 }
 export default {

@@ -55,7 +55,7 @@ class ConfigItem extends React.Component {
 
   render() {
     let { selectItem, schema } = this.DSL;
-    let { keys, names } = schema.dataKeysNames;
+    let { keys, names } = schema.dataKeysNames || {};
     const itemProps = (selectItem && selectItem.props) ? Object.keys(selectItem.props) : ''
     return (
       <div className='config'>

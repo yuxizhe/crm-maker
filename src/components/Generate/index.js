@@ -2,13 +2,15 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Drawer, Tabs, Modal, Upload, Icon, message, Spin, Radio, Button } from 'antd';
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import { prettierCode, forceDownload } from "../util";
-import formPost from '../util/formPost';
-import getParameters from '../util/schema2paramter';
-import generateCode from '../util/DSL';
-import generateVueCode from '../util/DSL.vue';
-import enrichSchema from '../util/schemaEnrich';
-import aiToJson from '../util/AI2JSON';
+import { prettierCode, forceDownload } from "../../util";
+import SaveMpaas from './saveMpaas';
+
+import formPost from '../../util/formPost';
+import getParameters from '../../util/schema2paramter';
+import generateCode from '../../util/DSL';
+import generateVueCode from '../../util/DSL.vue';
+import enrichSchema from '../../util/schemaEnrich';
+import aiToJson from '../../util/AI2JSON';
 
 require('codemirror/mode/javascript/javascript');
 
@@ -16,7 +18,7 @@ const { TabPane } = Tabs;
 
 @inject('DSL')
 @observer
-class Generage extends React.Component {
+class Generate extends React.Component {
   constructor(props) {
     super(props);
     this.DSL = this.props.DSL;
@@ -131,6 +133,7 @@ class Generage extends React.Component {
         <span className="generate-button" onClick={this.exportFullJson}>导出完整json</span>
         <span className="generate-button" onClick={this.generateCode}>生成代码</span>
         <span className="generate-button" onClick={this.openSandBox}>沙盒预览</span>
+        <span className="generate-button"><SaveMpaas setLocalstorage={this.setLocalstorage}></SaveMpaas></span>
         <Drawer
           // title={this.state.title}
           placement="right"
@@ -266,4 +269,4 @@ class Generage extends React.Component {
   }
 }
 
-export default Generage;
+export default Generate;

@@ -8,7 +8,7 @@ import './style/App.less';
 import Drawer from './components/Drawer';
 import Editor from './components/Editor';
 import ConfigItem from './components/Config/index';
-import Generage from './components/Generate';
+import Generate from './components/Generate/index';
 
 const { Header, Content, Sider } = Layout;
 
@@ -18,7 +18,7 @@ const App = () => (
       <Layout>
         <Header>
           <span className="header-title">CRM生成器</span>
-          <Generage />
+          <Generate />
         </Header>
         <Layout>
           <Sider width={230}>
