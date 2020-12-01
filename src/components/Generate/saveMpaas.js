@@ -35,9 +35,9 @@ class SaveMpaas extends React.Component {
     });
   };
   saveMpaas = (values) => {
-    let url = 'http://sep.mpaas.snowballfinance.com/api/crm-maker/create'
+    let url = 'http://rc.mpaas.snowballfinance.com/api/crm-maker/create'
     if(this.props.DSL.mpaas.id) {
-      url = 'http://sep.mpaas.snowballfinance.com/api/crm-maker/update';
+      url = 'http://rc.mpaas.snowballfinance.com/api/crm-maker/update';
       values.id = this.props.DSL.mpaas.id;
     }
     axios.post(url,qs.stringify(values))
@@ -58,7 +58,7 @@ class SaveMpaas extends React.Component {
     let mpaasJson = '';
     if (id) {
       this.props.DSL.mpaas.id = id;
-      axios.get(`http://sep.mpaas.snowballfinance.com/api/crm-maker/detail?id=${id}`).then(res => {
+      axios.get(`http://rc.mpaas.snowballfinance.com/api/crm-maker/detail?id=${id}`).then(res => {
         const data = res.data.data;
         if (data && data.content) {
           mpaasJson = JSON.parse(data.content);
@@ -88,7 +88,7 @@ class SaveMpaas extends React.Component {
     const { mpaas } = this.props.DSL;
     return (
       <>
-        <span onClick={() => (this.setState({modalShow: true}))}>保存到mPaas</span>
+        <span onClick={() => (this.setState({modalShow: true}))}>保存到mPaaS</span>
         <Modal
           visible={this.state.modalShow}
           onOk={(e) => this.onSubmit(e, ['name', 'comment', 'url'])}

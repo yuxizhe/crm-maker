@@ -42,7 +42,11 @@ class Generate extends React.Component {
   }
 
   componentDidMount() {
-    this.getLocalstorage();
+    const url = new URL(window.location.href);
+    const type = url.searchParams.get('type');
+    if(type !== 'new') {
+      this.getLocalstorage();
+    }
   }
 
   setLocalstorage = () => {
@@ -70,14 +74,14 @@ class Generate extends React.Component {
       drawerShow: true,
     })
   }
-  exportSchema = () => {
-    this.setState({
-      schema: prettierCode(JSON.stringify(this.DSL.schema), 'json'),
-      type: 'schema',
-      drawerShow: true,
-    })
-    this.setLocalstorage();
-  }
+  // exportSchema = () => {
+  //   this.setState({
+  //     schema: prettierCode(JSON.stringify(this.DSL.schema), 'json'),
+  //     type: 'schema',
+  //     drawerShow: true,
+  //   })
+  //   this.setLocalstorage();
+  // }
   exportFullJson = () => {
     const enriched = enrichSchema(this.DSL.schema);
     this.setState({
@@ -128,8 +132,8 @@ class Generate extends React.Component {
       <>
         <span className="generate-button" onClick={() => this.setState({modalShow: true})}>智能识别表单图片</span>
         <span className="generate-button" onClick={this.clear}>清空</span>
-        <span className="generate-button" onClick={this.importSchema}>导入schema</span>
-        <span className="generate-button" onClick={this.exportSchema}>导出schema</span>
+        <span className="generate-button" onClick={this.importSchema}>编辑schema</span>
+        {/* <span className="generate-button" onClick={this.exportSchema}>导出schema</span> */}
         <span className="generate-button" onClick={this.exportFullJson}>导出完整json</span>
         <span className="generate-button" onClick={this.generateCode}>生成代码</span>
         <span className="generate-button" onClick={this.openSandBox}>沙盒预览</span>
@@ -195,7 +199,7 @@ class Generate extends React.Component {
           }
           {this.state.type === 'input' &&
             <>
-              <div>请将schema数据粘贴到下方</div>
+              <div>请将schema数据粘贴到下方，或者直接编辑</div>
               <br />
               <CodeMirror
                 value={this.state.schema}
