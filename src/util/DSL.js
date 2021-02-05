@@ -157,7 +157,7 @@ export default function (schema, option = {
       @action
       setModal(index) {
         this.initModal();
-        const record = this.dataList[index];
+        const record = Object.assign({}, this.dataList[index]);
         this.modalData = Object.assign(this.modalData, record);
         ${mobxTimeVar.map(item => {
           return `this.modalData.${item} = moment(record.${item})`
@@ -533,6 +533,8 @@ export default function (schema, option = {
           pagination={this.store.tablePagination} 
           loading={this.store.tableLoading}
           dataSource={this.store.dataList}
+          size="small"
+          bordered
           onChange={e => this.store.getList(e.current)}
         >${transform(schema.children)}</${type}>`;
         break;

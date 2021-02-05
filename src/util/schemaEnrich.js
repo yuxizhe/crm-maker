@@ -86,6 +86,7 @@ function processContainer(item) {
         'componentName': 'TableColumn',
         'props': {
           'title': '操作',
+          'width': 150,
           'render':'{{(text, record, index) => (<div>'
           + (schemaString.match('onModalEdit') && '<Button style={{ marginRight: 12 }} type="default" size="small" onClick={() => this.onModalEdit(record, index)}>编辑</Button>')
           + (schemaString.match('onTableItemDelete') && '<Button style={{ marginRight: 12 }} type="danger" size="small" onClick={() => confirm({ title: "确认删除吗?", onOk: () => { this.store.deleteDateList(record.id);},okText: "确认",cancelText: "取消",})}>删除</Button>')
