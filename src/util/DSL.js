@@ -208,6 +208,7 @@ export default function (schema, option = {
         this.tableLoading = true;
         HttpClient.get('/mock/list', {
           page,
+          page_size: 20,
           ${searchVar.map(item => {
               return `${item}: this.${item}`
           })}
@@ -669,11 +670,13 @@ export default function (schema, option = {
         @observer
         class ${schema.componentName}_${classes.length} extends Component {`];
 
-        states.push('store = store;\n')
+        states.push('store = store;');
 
-        if (schema.state) {
-          states.push(`state = ${toString(schema.state)}`);
-        }
+        states.push(`state = { store };\n`);
+
+        // if (schema.state) {
+        //   states.push(`state = ${toString(schema.state)}`);
+        // }
 
         if (schema.methods) {
           Object.keys(schema.methods).forEach((name) => {

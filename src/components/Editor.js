@@ -9,6 +9,7 @@ import ItemContainer from './ItemContainer';
 @observer
 class Editor extends React.Component {
   DSL = this.props.DSL;
+  state = { DSL: this.DSL };
 
   render() {
     let list = this.DSL.schema.children;
